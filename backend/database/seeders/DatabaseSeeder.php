@@ -13,6 +13,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Role::factory()->count(2)->create();
-        User::factory(50)->create();
+        User::factory(100)->create();
     }
 }

@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'image' => $this->faker->imageUrl(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => $this->faker->password(), 
-            'role_id' => $this->faker->numberBetween(1, 3),  
+            'role_id' => $this->faker->numberBetween(1, 2),  
         ];
     }
 }

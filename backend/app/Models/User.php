@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class User extends Model
 {
     use HasFactory;
-    // protected $guarded = false;
+    protected $guarded = false;
 
     // public function roles(): HasOne
     // {
