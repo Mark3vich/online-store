@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Model
 {
     use HasFactory;
     protected $guarded = false;
 
-    // public function roles(): HasOne
-    // {
-    //     return $this->hasOne(Role::class);
-    // }
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

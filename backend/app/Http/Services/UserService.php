@@ -9,13 +9,30 @@ use Illuminate\Database\Eloquent\Collection;
 class UserService
 {
     /**
-     * Get all users
+     * Получаем всех пользователей с отформатированным полем роли
      *
      * @return Collection
      */
     public function getAllUsers(): Collection
     {
-        return User::all();
+        // Жадная загрузка пользователей с ролями, выбираем только title из роли
+        $users = User::with('role:id,title')
+            ->select('id', 'name', 'image', 'email', 'password', 'role_id', 'created_at', 'updated_at')
+            ->get();
+
+        // Преобразуем коллекцию, но возвращаем её как Eloquent\Collection
+        return new Collection($users->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'image' => $user->image,
+                'email' => $user->email,
+                'password' => $user->password,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
+                'role' => optional($user->role)->title, // Преобразуем поле role в строку с названием роли
+            ];
+        }));
     }
 
     /**
