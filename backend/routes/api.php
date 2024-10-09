@@ -6,4 +6,4 @@ use App\Http\Controllers\Api\{UserController, CategoryController, ProductControl
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('categories', CategoryController::class);
-Route::apiResource('prosts', ProductController::class);
+Route::apiResource('products', ProductController::class);

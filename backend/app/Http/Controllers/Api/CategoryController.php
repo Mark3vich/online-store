@@ -9,11 +9,11 @@ use App\Http\Services\CategoryService;
 
 class CategoryController extends Controller
 {
-    protected $userService;
+    protected $categoryService;
 
-    public function __construct(CategoryService $userService)
+    public function __construct(CategoryService $categoryService)
     {
-        $this->userService = $userService;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -21,7 +21,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->userService->getAllCategories();
+        $categories = $this->categoryService->getAllCategories();
         return response()->json($categories, 200);
     }
 
@@ -32,7 +32,7 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validated();
 
-        $category = $this->userService->createCategory($validatedData);
+        $category = $this->categoryService->createCategory($validatedData);
 
         return response()->json($category, 201);
     }
@@ -42,7 +42,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category = $this->userService->getCategoryById($id);
+        $category = $this->categoryService->getCategoryById($id);
         return response()->json($category, 200);
     }
 
@@ -53,7 +53,7 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validated();
 
-        $category = $this->userService->updateCategory($validatedData, $id);
+        $category = $this->categoryService->updateCategory($validatedData, $id);
 
         return response()->json($category, 200);
     }
@@ -63,7 +63,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->userService->deleteCategory($id);
+        $this->categoryService->deleteCategory($id);
         return response()->json(null, 204);
     }
 }
