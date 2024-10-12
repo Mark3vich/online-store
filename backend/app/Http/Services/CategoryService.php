@@ -17,6 +17,15 @@ class CategoryService
        return Category::all();
    }
 
+   /** Get all users
+    *
+    * @return Collection
+    */
+   public function getAllCategoriesWithProducts(): Collection
+   {
+       return Category::with('products')->get();
+   }
+
    /** Get user by id
     *
     * @param int $id

@@ -66,4 +66,15 @@ class CategoryController extends Controller
         $this->categoryService->deleteCategory($id);
         return response()->json(null, 204);
     }
+
+    /**
+     * Get all users
+     *
+     * @return Collection
+     */
+    public function getAllCategoriesWithProducts()
+    {
+        $categories = $this->categoryService->getAllCategoriesWithProducts();
+        return response()->json($categories, 200);
+    }
 }
