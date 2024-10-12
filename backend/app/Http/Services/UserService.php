@@ -51,11 +51,25 @@ class UserService
      * Get user by id
      *
      * @param int $id
-     * @return User
+     * @return array
      */
-    public function getUserById(int $id): User
+    public function getUserById(int $id): array
     {
-        return User::findOrFail($id);
+        // Жадная загрузка пользователей с ролями, выбираем только title из роли
+        $user = User::with('role:id,title')
+        ->select('id', 'name', 'image', 'email', 'password', 'role_id', 'created_at', 'updated_at')
+        ->findOrFail($id);
+
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'image' => $user->image,
+            'email' => $user->email,
+            'password' => $user->password,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+            'role' => optional($user->role)->title
+        ];
     }
 
     /**

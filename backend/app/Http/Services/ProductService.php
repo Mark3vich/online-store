@@ -15,18 +15,43 @@ class ProductService
      */
     public function getAllProducts(): Collection
     {
-        return Product::all();
+        $products = Product::with('category:id,title')
+        ->select('id', 'title', 'description', 'image', 'price', 'discount', 'category_id')
+        ->get();
+        return new Collection($products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'title' => $product->title,
+                'description' => $product->description,
+                'image' => $product->image,
+                'price' => $product->price,
+                'discount' => $product->discount,
+                'category' => optional($product->category)->title,
+            ];
+        }));
     }
 
     /**
      * Get user by id
      *
      * @param string $id
-     * @return Product
+     * @return array
      */
-    public function getProductById(string $id): Product
+    public function getProductById(int $id): array
     {
-        return Product::find($id);
+        $product = Product::with('category:id,title')
+            ->select('id', 'title', 'description', 'image', 'price', 'discount', 'category_id')
+            ->findOrFail($id);
+
+        return [
+            'id' => $product->id,
+            'title' => $product->title,
+            'description' => $product->description,
+            'image' => $product->image,
+            'price' => $product->price,
+            'discount' => $product->discount,
+            'category' => $product->category->title ?? null,
+        ];
     }
 
     /** 
