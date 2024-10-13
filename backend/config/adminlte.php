@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Online Shop',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -329,8 +329,8 @@ return [
         ],
         ['header' => 'account_settings'],
         [
-            'text' => 'profile',
-            'url' => 'admin/settings',
+            'text' => 'Profile',
+            'url'  => 'profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
