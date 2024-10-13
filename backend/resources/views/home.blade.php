@@ -16,6 +16,10 @@
 
                     {{ __('You are logged in!') }}
                 </div>
+
+                <div class="card-body">
+                    @include('partials.content-dashboard')
+                </div>
             </div>
         </div>
     </div>
