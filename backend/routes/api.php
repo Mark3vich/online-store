@@ -2,9 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\{UserController, CategoryController, ProductController};
+use App\Http\Controllers\Api\{UserController, CategoryController, ProductController, JWTAuthController};
 
-Route::apiResource('users', UserController::class);
-Route::apiResource('categories', CategoryController::class);
-Route::get('categories_products', [CategoryController::class, 'getAllCategoriesWithProducts']);
-Route::apiResource('products', ProductController::class);
+Route::post('register', [UserController::class, 'register']);
+Route::post('login', [UserController::class, 'login']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('logout', [UserController::class, 'logout']);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('categories', CategoryController::class);
+    Route::get('categories_products', [CategoryController::class, 'getAllCategoriesWithProducts']);
+    Route::apiResource('products', ProductController::class);
+});

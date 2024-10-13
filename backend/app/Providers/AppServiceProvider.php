@@ -11,7 +11,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register services, if needed
+        $this->app->singleton(UserService::class, function ($app) {
+            return new UserService();
+        });
+
+        $this->app->singleton(JWTAuthService::class, function ($app) {
+            return new JWTAuthService();
+        });
     }
 
     /**
