@@ -44,6 +44,11 @@ class UserService
     public function createUser(array $data): User
     {
         $data['password'] = Hash::make($data['password']);
+
+        if (isset($data['image'])) {
+            $imagePath = $data['image']->store('avatars', 'public'); 
+            $data['avatar'] = $imagePath; 
+        }
         return User::create($data);
     }
 

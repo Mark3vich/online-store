@@ -15,6 +15,12 @@ class JWTAuthService {
     public function register(array $data) {
         $data['password'] = Hash::make($data['password']);
         $data['role_id'] = 2;
+
+        if (isset($data['image'])) {
+            $imagePath = $data['image']->store('avatars', 'public'); 
+            $data['image'] = $imagePath; 
+        }
+
         $user = User::create($data);
         $token = JWTAuth::fromUser($user);
         return compact('user', 'token');
