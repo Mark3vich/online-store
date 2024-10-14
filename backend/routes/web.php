@@ -18,9 +18,9 @@ Route::middleware('auth')->group(function () {
     Route::get('users/{user}', [UserController::class, 'edit'])->name('users.edit');
     Route::post('users/{user}', [UserController::class, 'update'])->name('users.update');
 
-    Route::get('product', [ProductController::class, 'show'])->name('product.index');
-    Route::get('product/{product}', [ProductController::class, 'edit'])->name('product.edit');
-    Route::post('product', [ProductController::class, 'update'])->name('product.update');
+    Route::get('products', [ProductController::class, 'show'])->name('product.index');
+    Route::get('products/{product}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::post('products/{product}', [ProductController::class, 'update'])->name('product.update');
 
     Route::get('category', [ProductController::class, 'show'])->name('category.index');
     Route::get('category/{category}', [ProductController::class, 'edit'])->name('category.edit');
