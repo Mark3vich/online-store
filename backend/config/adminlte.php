@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Admin Panel</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -320,12 +320,21 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
+        ['header' => 'MAIN NAVIGATION'],
         [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
+            'text' => 'Users',
+            'url'  => 'users',
+            'icon' => 'fas fa-fw fa-users',  
+        ],
+        [
+            'text' => 'Categories',
+            'url'  => 'categories',
+            'icon' => 'fas fa-fw fa-list',
+        ],
+        [
+            'text' => 'Products',
+            'url'  => 'products',
+            'icon' => 'fas fa-fw fa-boxes',
         ],
         ['header' => 'account_settings'],
         [
