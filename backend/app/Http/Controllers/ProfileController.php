@@ -2,19 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\ProfileRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth'); // Проверка авторизации
+    }
     /**
      * Show the user profile.
      */
-    public function show()
+    public function show(): View 
     {
+        /** @var User $user */
         $user = Auth::user();
         return view('profile.show', compact('user'));
     }
@@ -22,43 +29,50 @@ class ProfileController extends Controller
     /**
      * Update the user profile.
      */
-    public function update(UserRequest $request)
+    public function update(ProfileRequest $request): RedirectResponse
     {
+        /** @var User $user */
         $user = Auth::user();
 
+        // Валидация данных
         $validatedData = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $avatarPath = $request->file('image')->store('avatars', 'public');
-            if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+        DB::beginTransaction(); // Начало транзакции
+        try {
+            // Если есть загруженный файл изображения
+            if ($request->hasFile('avatar')) {
+                $validatedData['image'] = $this->handleImageUpload($request, $user);
             }
-            $validatedData['image'] = $avatarPath;
+
+            // Обновление данных пользователя
+            $user->update($validatedData);
+
+            DB::commit(); // Подтверждение транзакции
+
+            return redirect()->back()->with('status', __('Profile updated successfully.'));
+        } catch (\Exception $e) {
+            DB::rollBack(); // Откат транзакции в случае ошибки
+            return redirect()->back()->withErrors(['error' => __('An error occurred while updating the profile.')]);
         }
-
-        $user->update($validatedData);
-
-        return redirect()->back()->with('status', 'Profile updated successfully.');
     }
 
     /**
-     * Update the user password.
+     * Обработка загрузки изображения.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
+     * @return string Путь к загруженному изображению.
      */
-    public function updatePassword(Request $request)
+    private function handleImageUpload(Request $request, $user): string
     {
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:8|confirmed',
-        ]);
+        // Сохранение нового изображения
+        $avatarPath = $request->file('avatar')->store('avatars', 'public');
 
-        $user = Auth::user();
-
-        if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+        // Удаление старого изображения, если оно есть
+        if ($user->image) {
+            Storage::disk('public')->delete($user->image);
         }
 
-        $user->update(['password' => Hash::make($request->new_password)]);
-
-        return back()->with('status', 'Password updated successfully.');
+        return $avatarPath;
     }
 }
