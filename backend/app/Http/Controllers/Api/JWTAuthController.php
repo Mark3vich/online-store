@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Services\JWTAuthService;
+use Illuminate\Validation\ValidationException;
 
 class JWTAuthController extends Controller
 {

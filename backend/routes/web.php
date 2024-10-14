@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\UserController;
+
 
 Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
@@ -22,9 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::get('products/{product}', [ProductController::class, 'edit'])->name('product.edit');
     Route::post('products/{product}', [ProductController::class, 'update'])->name('product.update');
 
-    Route::get('category', [ProductController::class, 'show'])->name('category.index');
-    Route::get('category/{category}', [ProductController::class, 'edit'])->name('category.edit');
-    Route::post('category', [ProductController::class, 'update'])->name('category.update');
+    Route::get('categories', [CategoryController::class, 'show'])->name('category.index');
+    Route::get('categories/{category}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::post('categories/{category}', [CategoryController::class, 'update'])->name('category.update');
 });
 
 

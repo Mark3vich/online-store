@@ -3,7 +3,6 @@
 namespace App\Http\Services;
 
 use App\Models\Product;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductService 
