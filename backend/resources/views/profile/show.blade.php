@@ -30,15 +30,25 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="avatar">{{ __('Avatar') }}</label>
-                            <input type="file" name="avatar" class="form-control-file">
+                            <label for="avatar" class="font-weight-bold">{{ __('Avatar') }}</label>
                             @if ($user->image)
-                                <img src="{{ asset('storage/' . $user->image) }}" alt="Avatar" width="100"
-                                    class="mt-2">
+                                <div class="avatar-wrapper mt-2" style="position: relative; display: inline-block;">
+                                    <img src="{{ asset('storage/' . $user->image) }}" alt="Avatar" width="100"
+                                        height="100"
+                                        style="border-radius: 50%; border: 3px solid #ccc; object-fit: cover;">
+                                </div>
                             @endif
+                            <label class="custom-file-upload mt-3">
+                                <input type="file" name="avatar" id="avatarInput">
+                                {{ __('Change the avatar') }}
+                            </label>
+                            <span class="file-name" id="fileName">No file chosen</span> <!-- Отображение имени файла -->
                         </div>
 
-                        <button type="submit" class="btn btn-primary">{{ __('Update Profile') }}</button>
+                        <button type="submit" class="btn btn-warning mt-4"
+                            style="background-color: #ffc107; color: #fff; border: none;">
+                            {{ __('Upgrade Profile') }}
+                        </button>
                     </form>
                 </div>
                 @if ($errors->any())
@@ -53,4 +63,11 @@
             </div>
         </div>
     </div>
+@section('js')
+    <script src="{{ asset('js/file.js') }}"></script>
+@endsection
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/file.css') }}">
+@endsection
+
 @endsection
