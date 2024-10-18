@@ -16,7 +16,7 @@ class ProductController extends Controller
 
         $filters = new ProductFilter($request->all());
 
-        $products = Product::filter($filters)->get();
+        $products = Product::filter($filters)->with(['reviews.user'])->get();
 
         return view('products.index', compact('products', 'categories'));
     }

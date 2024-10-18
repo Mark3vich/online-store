@@ -46,6 +46,9 @@
                                     </tbody>
                                 </table>
                             </td>
+                        @else
+                            <!-- Если нет отзывов -->
+                            <td>No reviews</td>
                         @endif
                         <td>
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>

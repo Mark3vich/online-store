@@ -59,6 +59,7 @@
                     <th>Discount</th>
                     <th>Price (Original)</th>
                     <th>Price (With Discount)</th>
+                    <th>Reviews</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -68,9 +69,35 @@
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->title }}</td>
                         <td>{{ $product->category->title }}</td>
-                        <td>{{ is_null($product->discount) || $product->discount === 0 ? "No discount" : $product->discount . "%" }}</td>
+                        <td>{{ is_null($product->discount) || $product->discount === 0 ? 'No discount' : $product->discount . '%' }}
+                        </td>
                         <td>${{ number_format($product->price, 2) }}</td>
                         <td>${{ number_format($product->discounted_price, 2) }}</td>
+                        @if ($product->reviews->isEmpty() == false)
+                            <td>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Rating</th>
+                                            <th>Review</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($product->reviews as $review)
+                                            <tr>
+                                                <td>{{ $review->product->title }}</td> <!-- Название продукта -->
+                                                <td>{{ $review->rating }} / 5</td> <!-- Оценка -->
+                                                <td>{{ $review->review }}</td> <!-- Комментарий -->
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </td>
+                        @else
+                            <!-- Если нет отзывов -->
+                            <td>No reviews</td>
+                        @endif
                         <td>
                             <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary">Edit</a>
                         </td>
