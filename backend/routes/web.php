@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('users/{user}', [UserController::class, 'edit'])->name('users.edit');
     Route::post('users/{user}', [UserController::class, 'update'])->name('users.update');
 
-    Route::get('products', [ProductController::class, 'show'])->name('product.index');
+    Route::get('products', [ProductController::class, 'show'])->name('product.filter');
     Route::get('products/{product}', [ProductController::class, 'edit'])->name('product.edit');
     Route::post('products/{product}', [ProductController::class, 'update'])->name('product.update');
 
