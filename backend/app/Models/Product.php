@@ -32,4 +32,10 @@ class Product extends Model
 
         return $this->price; // Возвращает обычную цену, если скидки нет
     }
+
+    // Продукт имеет много отзывов
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

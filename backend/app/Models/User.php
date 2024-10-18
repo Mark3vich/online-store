@@ -17,6 +17,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Role::class);
     }
 
+    // Пользователь может оставить много отзывов
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     // Добавь необходимые методы для JWT
     public function getJWTIdentifier()
     {
