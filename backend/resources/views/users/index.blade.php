@@ -15,15 +15,38 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Reviews</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($users as $user)
+                @foreach ($users as $user)
                     <tr>
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        @if ($user->reviews->isEmpty() == false)
+                            <td>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Rating</th>
+                                            <th>Review</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($user->reviews as $review)
+                                            <tr>
+                                                <td>{{ $review->product->title }}</td> <!-- Название продукта -->
+                                                <td>{{ $review->rating }} / 5</td> <!-- Оценка -->
+                                                <td>{{ $review->review }}</td> <!-- Комментарий -->
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </td>
+                        @endif
                         <td>
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
                         </td>

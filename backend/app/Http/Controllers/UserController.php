@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function show()
     {
-        $users = User::all();
+        $users = User::with(['reviews.product'])->get();
         return view('users.index', compact('users'));
     }
     // Страница редактирования пользователя
