@@ -11,7 +11,7 @@
         @endif
 
         <!-- Форма фильтрации по категориям -->
-        <form action="{{ route('product.filter') }}" method="GET" id="filterForm" enctype="application/x-www-form-urlencoded"
+        <form action="{{ route('product.index') }}" method="GET" id="filterForm" enctype="application/x-www-form-urlencoded"
             class="mb-4">
             @csrf
             <div class="form-group">
@@ -56,7 +56,9 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Category</th>
-                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Price (Original)</th>
+                    <th>Price (With Discount)</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -66,7 +68,9 @@
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->title }}</td>
                         <td>{{ $product->category->title }}</td>
+                        <td>{{ is_null($product->discount) || $product->discount === 0 ? "No discount" : $product->discount . "%" }}</td>
                         <td>${{ number_format($product->price, 2) }}</td>
+                        <td>${{ number_format($product->discounted_price, 2) }}</td>
                         <td>
                             <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary">Edit</a>
                         </td>

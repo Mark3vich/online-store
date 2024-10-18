@@ -22,6 +22,11 @@
             </div>
 
             <div class="form-group">
+                <label for="name">Description</label>
+                <input type="text" name="discount" id="discount" class="form-control" value="{{ old('discount', $product->discount) }}" required>
+            </div>
+
+            <div class="form-group">
                 <label for="price">Price</label>
                 <input type="number" name="price" id="price" class="form-control" value="{{ old('price', $product->price) }}" required>
             </div>
