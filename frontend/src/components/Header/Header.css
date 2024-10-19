@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    background-color: white;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.search-bar {
+    margin-right: auto;
+    padding-left: 20px;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+}
