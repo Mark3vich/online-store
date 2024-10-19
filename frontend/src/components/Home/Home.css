@@ -1,0 +1,10 @@
+.brand-column {
+    text-align: center; /* Центрирование изображения */
+    flex-grow: 1; /* Чтобы все колонки были равной ширины */
+    border-right: 1px solid #ccc; /* Вертикальная линия между колонками */
+    padding: 0 10px; /* Отступы между изображениями */
+}
+
+.brand-column:first-child {
+    border-left: 1px solid #ccc; /* Вертикальная линия между колонками */
+}
