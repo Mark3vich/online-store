@@ -1,9 +1,5 @@
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 50px;
-    background-color: white;
+    padding: 10px 50px;
 }
 
 .logo img {
@@ -11,11 +7,10 @@
 }
 
 .search-bar {
-    margin-right: auto;
-    padding-left: 20px;
+    flex-grow: 1;
+    max-width: 400px;
 }
 
-.actions {
-    display: flex;
-    gap: 15px;
+.actions button {
+    margin-left: 10px;
 }
