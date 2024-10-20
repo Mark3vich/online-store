@@ -15,13 +15,118 @@ import Serve1 from '../../assets/image-serv-1.webp';
 import Serve2 from '../../assets/image-serv-2.webp';
 import Serve3 from '../../assets/image-serv-3.webp';
 
+import SportBox1 from '../../assets/sport-box-1.png';
+import SportBox2 from '../../assets/sport-box-2.png';
+import SportBox3 from '../../assets/sport-box-3.png';
+import SportBox4 from '../../assets/sport-box-4.png';
+
 class Home extends React.Component {
     render() {
         return (
             <div>
                 <img src={Slide} alt="Slide" />
                 <div className='container'>
-                    <h1>Home</h1>
+                    <h3 className='text-center mb-5 mt-5'>SHOP TOP CATEGORIES</h3>
+                    <div className="d-flex mb-5">
+                        <div className='d-flex p-5 flex-grow-1'>
+                            <div>
+                                <img src={SportBox1} alt="SportBox1" />
+                                <div className='block-category'>
+                                    <h3 className='mt-3 mb-3' style={{
+                                        color: '#0185ce',
+                                        fontFamily: "Oswald",
+                                        fontStyle: "normal",
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                        textDecoration: 'none',
+                                        lineHeight: '18px',
+                                        letterSpacing: '0.6px'
+                                    }}>BUILD MUSCLE</h3>
+                                    <p>Intra-Workouts</p>
+                                    <p>Pre-Workouts</p>
+                                    <p>Muscle Building Stacks</p>
+                                    <p>Creatine</p>
+                                    <p>Post-Workouts</p>
+                                    <p>Protein</p>
+                                    <p>Amino Acids</p>
+                                    <p>Glutamine</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='d-flex p-5 flex-grow-1'>
+                            <div>
+                                <img src={SportBox2} alt="SportBox2" />
+                                <div className='block-category'>
+                                    <h3 className='mt-3 mb-3' style={{
+                                        color: '#0185ce',
+                                        fontFamily: "Oswald",
+                                        fontStyle: "normal",
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                        textDecoration: 'none',
+                                        lineHeight: '18px',
+                                        letterSpacing: '0.6px'
+                                    }}>INCREASE ENERGY</h3>
+                                    <p>Herbal Energy Enhancers</p>
+                                    <p>Energy Shots</p>
+                                    <p>Energy Chews</p>
+                                    <p>Energy Gels</p>
+                                    <p>Energy Drinks</p>
+                                    <p>Pre-Workout Supplements</p>
+                                    <p>Non-Stimulant Energy</p>
+                                    <p>Caffeine / Stimulants</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='d-flex p-5 flex-grow-1'>
+                            <div>
+                                <img src={SportBox3} alt="SportBox3" />
+                                <div className='block-category'>
+                                    <h3 className='mt-3 mb-3' style={{
+                                        color: '#0185ce',
+                                        fontFamily: "Oswald",
+                                        fontStyle: "normal",
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                        textDecoration: 'none',
+                                        lineHeight: '18px',
+                                        letterSpacing: '0.6px'
+                                    }}>IMPROVE WORKOUT</h3>
+                                    <p>Post-Workout Recovery</p>
+                                    <p>Pre-Workout Supplements</p>
+                                    <p>Creatine</p>
+                                    <p>Creatine</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='d-flex p-5 flex-grow-1'>
+                            <div>
+                                <img src={SportBox4} alt="SportBox4" />
+                                <div className='block-category'>
+                                    <h3 className='mt-3 mb-3' style={{
+                                        color: '#0185ce',
+                                        fontFamily: "Oswald",
+                                        fontStyle: "normal",
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        textTransform: 'uppercase',
+                                        textDecoration: 'none',
+                                        lineHeight: '18px',
+                                        letterSpacing: '0.6px'
+                                    }}>LOSE FAT</h3>
+                                    <p>Fat Burners</p>
+                                    <p>Stimulant-Free Fat Burners</p>
+                                    <p>Fat Control</p>
+                                    <p>Carbohydrate Management</p>
+                                    <p>Fat Loss Stacks</p>
+                                    <p>Fat Loss Stacks</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div style={{ backgroundImage: `url(${Discount})`, width: '100%', height: '620px' }}>
                     <div className='container text-center'>
