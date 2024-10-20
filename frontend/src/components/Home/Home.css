@@ -8,3 +8,22 @@
 .brand-column:first-child {
     border-left: 1px solid #ccc; /* Вертикальная линия между колонками */
 }
+
+.service-row {
+    display: flex;
+    justify-self: start;
+}
+
+.service-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Выравнивание содержимого по вертикали */
+    text-align: center; /* Выравнивание по горизонтали */
+    padding: 20px;
+    flex-grow: 1; /* Колонки равной ширины */
+}
+
+.service-col img {
+    margin-bottom: 20px;
+    max-width: 100px; /* Ограничиваем размер изображений, можно изменить */
+}
