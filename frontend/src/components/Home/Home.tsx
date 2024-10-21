@@ -17,16 +17,22 @@ import Serve1 from '../../assets/image-serv-1.webp';
 import Serve2 from '../../assets/image-serv-2.webp';
 import Serve3 from '../../assets/image-serv-3.webp';
 
-import SportBox1 from '../../assets/sport-box-1.png';
-import SportBox2 from '../../assets/sport-box-2.png';
-import SportBox3 from '../../assets/sport-box-3.png';
-import SportBox4 from '../../assets/sport-box-4.png';
-
 import Slide from './Slide/Slide';
 
 import './Home.css';
+import Category from './Category/Category';
+
 
 class Home extends React.Component {
+    private brands: { src: string, alt: string }[] = [
+        { src: Brand1, alt: "Brand1" },
+        { src: Brand2, alt: "Brand2" },
+        { src: Brand3, alt: "Brand3" },
+        { src: Brand4, alt: "Brand4" },
+        { src: Brand5, alt: "Brand5" },
+        { src: Brand6, alt: "Brand6" }
+    ];
+
     render(): JSX.Element {
         return (
             <div>
@@ -38,104 +44,26 @@ class Home extends React.Component {
                 <div className='container'>
                     <h3 className='text-title2 text-center mb-5 mt-5'>SHOP TOP CATEGORIES</h3>
                     <div className="d-flex mb-5">
-                        <div className='d-flex p-5 flex-grow-1 border-start'>
-                            <div>
-                                <img src={SportBox1} alt="SportBox1" />
-                                <div className='block-category'>
-                                    <h3 className='mt-3 mb-3' style={{
-                                        color: '#0185ce',
-                                        fontFamily: "Oswald",
-                                        fontStyle: "normal",
-                                        fontSize: '14px',
-                                        fontWeight: 'bold',
-                                        textTransform: 'uppercase',
-                                        textDecoration: 'none',
-                                        lineHeight: '18px',
-                                        letterSpacing: '0.6px'
-                                    }}>BUILD MUSCLE</h3>
-                                    <p>Intra-Workouts</p>
-                                    <p>Pre-Workouts</p>
-                                    <p>Muscle Building Stacks</p>
-                                    <p>Creatine</p>
-                                    <p>Post-Workouts</p>
-                                    <p>Protein</p>
-                                    <p>Amino Acids</p>
-                                    <p>Glutamine</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='d-flex p-5 flex-grow-1 border-start border-end'>
-                            <div>
-                                <img src={SportBox2} alt="SportBox2" />
-                                <div className='block-category'>
-                                    <h3 className='mt-3 mb-3' style={{
-                                        color: '#0185ce',
-                                        fontFamily: "Oswald",
-                                        fontStyle: "normal",
-                                        fontSize: '14px',
-                                        fontWeight: 'bold',
-                                        textTransform: 'uppercase',
-                                        textDecoration: 'none',
-                                        lineHeight: '18px',
-                                        letterSpacing: '0.6px'
-                                    }}>INCREASE ENERGY</h3>
-                                    <p>Herbal Energy Enhancers</p>
-                                    <p>Energy Shots</p>
-                                    <p>Energy Chews</p>
-                                    <p>Energy Gels</p>
-                                    <p>Energy Drinks</p>
-                                    <p>Pre-Workout Supplements</p>
-                                    <p>Non-Stimulant Energy</p>
-                                    <p>Caffeine / Stimulants</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='d-flex p-5 flex-grow-1 border-end'>
-                            <div>
-                                <img src={SportBox3} alt="SportBox3" />
-                                <div className='block-category'>
-                                    <h3 className='mt-3 mb-3' style={{
-                                        color: '#0185ce',
-                                        fontFamily: "Oswald",
-                                        fontStyle: "normal",
-                                        fontSize: '14px',
-                                        fontWeight: 'bold',
-                                        textTransform: 'uppercase',
-                                        textDecoration: 'none',
-                                        lineHeight: '18px',
-                                        letterSpacing: '0.6px'
-                                    }}>IMPROVE WORKOUT</h3>
-                                    <p>Post-Workout Recovery</p>
-                                    <p>Pre-Workout Supplements</p>
-                                    <p>Creatine</p>
-                                    <p>Creatine</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='d-flex p-5 flex-grow-1 border-end'>
-                            <div>
-                                <img src={SportBox4} alt="SportBox4" />
-                                <div className='block-category'>
-                                    <h3 className='mt-3 mb-3' style={{
-                                        color: '#0185ce',
-                                        fontFamily: "Oswald",
-                                        fontStyle: "normal",
-                                        fontSize: '14px',
-                                        fontWeight: 'bold',
-                                        textTransform: 'uppercase',
-                                        textDecoration: 'none',
-                                        lineHeight: '18px',
-                                        letterSpacing: '0.6px'
-                                    }}>LOSE FAT</h3>
-                                    <p>Fat Burners</p>
-                                    <p>Stimulant-Free Fat Burners</p>
-                                    <p>Fat Control</p>
-                                    <p>Carbohydrate Management</p>
-                                    <p>Fat Loss Stacks</p>
-                                    <p>Fat Loss Stacks</p>
-                                </div>
-                            </div>
-                        </div>
+                        <Category
+                            categoryImage="../../../assets/sport-box-1.png"
+                            categoryTitle="BUILD MUSCLE"
+                            categoriesSubTitle={["Intra-Workouts", "Pre-Workouts", "Muscle Building Stacks", "Creatine", "Post-Workouts", "Protein", "Amino Acids", "Glutamine"]}
+                        />
+                        <Category
+                            categoryImage="../../../assets/sport-box-2.png"
+                            categoryTitle="INCREASE ENERGY"
+                            categoriesSubTitle={["Herbal Energy Enhancers", "Energy Shots", "Energy Chews", "Energy Gels", "Energy Drinks", "Pre-Workout Supplements", "Non-Stimulant Energy", "Caffeine / Stimulants"]}
+                        />
+                        <Category
+                            categoryImage="../../../assets/sport-box-3.png"
+                            categoryTitle="IMPROVE WORKOUT"
+                            categoriesSubTitle={["Post-Workout Recovery", "Pre-Workout Supplements", "Creatine", "Creatine"]}
+                        />
+                        <Category
+                            categoryImage="../../../assets/sport-box-4.png"
+                            categoryTitle="LOSE FAT"
+                            categoriesSubTitle={["Pre-Workout Supplements", "Creatine", "Creatine", "Creatine"]}
+                        />
                     </div>
                 </div>
                 <div style={{ backgroundImage: `url(${Discount})`, width: '100%', height: '620px' }}>
@@ -148,24 +76,11 @@ class Home extends React.Component {
                 <div className='container'>
                     <h3 className='text-title2 text-center mb-5 mt-5'>TOP BRANDS</h3>
                     <div className="row align-items-center mb-5">
-                        <div className="col brand-column">
-                            <img src={Brand1} alt="Brand1" />
-                        </div>
-                        <div className="col brand-column">
-                            <img src={Brand2} alt="Brand2" />
-                        </div>
-                        <div className="col brand-column">
-                            <img src={Brand3} alt="Brand3" />
-                        </div>
-                        <div className="col brand-column">
-                            <img src={Brand4} alt="Brand4" />
-                        </div>
-                        <div className="col brand-column">
-                            <img src={Brand5} alt="Brand5" />
-                        </div>
-                        <div className="col brand-column">
-                            <img src={Brand6} alt="Brand6" />
-                        </div>
+                        {this.brands.map((brand, index) => (
+                            <div className="col brand-column" key={index}>
+                                <img src={brand.src} alt={brand.alt} />
+                            </div>
+                        ))}
                     </div>
                     <div className='d-flex justify-content-between mb-5 w-100'>
                         <div className='d-flex p-5 flex-grow-1' style={{ backgroundColor: '#0185ce' }}>
