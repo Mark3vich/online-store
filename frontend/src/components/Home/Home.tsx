@@ -21,10 +21,15 @@ import Slide from './Slide/Slide';
 
 import './Home.css';
 import Category from './Category/Category';
+import Product from './Product/Product';
 
+interface Brand {
+    src: string;
+    alt: string;
+}
 
 class Home extends React.Component {
-    private brands: { src: string, alt: string }[] = [
+    private brands: Brand[] = [
         { src: Brand1, alt: "Brand1" },
         { src: Brand2, alt: "Brand2" },
         { src: Brand3, alt: "Brand3" },
@@ -39,6 +44,12 @@ class Home extends React.Component {
                 <Carousel arrows infinite={false}>
                     <div>
                         <Slide slide="../../../assets/slide-2.jpg" title="20%" description="Discount" subtitle="And free shipping" />
+                    </div>
+                    <div>
+                        <Slide slide="../../../assets/slide-1.jpg" title="SPORT" description="NUTRITION" subtitle="AND WORKOUT SUPPORT" />
+                    </div>
+                    <div>
+                        <Slide slide="../../../assets/slide-3.png" title="PROTEIN" description="MUSCLE FUEL" subtitle="" />
                     </div>
                 </Carousel>
                 <div className='container'>
@@ -66,11 +77,14 @@ class Home extends React.Component {
                         />
                     </div>
                 </div>
-                <div style={{ backgroundImage: `url(${Discount})`, width: '100%', height: '620px' }}>
+                <div style={{ backgroundImage: `url(${Discount})`, width: '100%', minHeight: '620px', paddingBottom: '15px' }}>
                     <div className='container text-center'>
                         <h1 className='text-title mb-3 pt-5'>DEALS OF THE DAY</h1>
                         <h3 className='text-subtitle'>MUSCLE BUILDING WHEY PROTEIN POWDER</h3>
                         <Timer initialDays={0} initialHours={20} initialMinutes={0} initialSeconds={0} />
+                        <Carousel arrows infinite={false}>
+                            <Product alt='Whey Protein' image='../../../assets/day1.webp' title='Pulse-Pre-Workout' description="31g of Whey Protein with Amino. Whey Protein Blends combines multiple..." price='44.00'/>
+                        </Carousel>
                     </div>
                 </div>
                 <div className='container'>

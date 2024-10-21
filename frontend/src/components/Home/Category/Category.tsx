@@ -30,14 +30,6 @@ class Category extends React.Component<CategoryProps> {
                         {this.props.categoriesSubTitle.map((subTitle, index) => (
                             <p key={index}>{subTitle}</p>
                         ))}
-                        {/* <p>Intra-Workouts</p>
-                        <p>Pre-Workouts</p>
-                        <p>Muscle Building Stacks</p>
-                        <p>Creatine</p>
-                        <p>Post-Workouts</p>
-                        <p>Protein</p>
-                        <p>Amino Acids</p>
-                        <p>Glutamine</p> */}
                     </div>
                 </div>
             </div>
