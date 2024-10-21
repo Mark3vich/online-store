@@ -1,0 +1,53 @@
+.slide-title {
+    color: #ffffff;
+    font-family: "Oswald", Sans-serif;
+    font-size: 133px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 0.8em;
+    letter-spacing: -6.9px;
+}
+
+.slide-description {
+    color: #0185ce;
+    font-family: "Oswald", Sans-serif;
+    font-size: 137px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 1em;
+    letter-spacing: -5.4px;
+}
+
+.slide-subtitle {
+    color: #ffffff;
+    font-family: "Oswald", Sans-serif;
+    font-size: 48px;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 0.7em;
+    letter-spacing: 2.4px;
+}
+
+.button-shop {
+    font-family: "Oswald", Sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 50px;
+    letter-spacing: 0.4px;
+    color: #ffffff;
+    background-color: #0185ce;
+    text-align: center;
+    display: inline-block;
+    width: 175px;
+    height: 50px;
+    margin-top: 50px;
+}

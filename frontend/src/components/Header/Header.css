@@ -1,6 +1,6 @@
-.header {
+/* .header {
     padding: 10px 50px;
-}
+} */
 
 .logo img {
     height: 50px;
@@ -13,4 +13,16 @@
 
 .actions button {
     margin-left: 10px;
+}
+
+.text-menu {
+    font-family: "Roboto Condensed", Sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 1.643em;
+    letter-spacing: 1px;
+    color: #171a25
 }

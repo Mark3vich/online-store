@@ -8,7 +8,7 @@ import './Header.css';
 class Header extends React.Component {
     render() {
         return (
-            <div className="header bg-white p-3 container">
+            <div className="header bg-white pt-4 container">
                 <div className="d-flex justify-content-between align-items-center mb-2">
                     <div className="d-flex align-items-center">
                         <div className="logo">
@@ -37,12 +37,12 @@ class Header extends React.Component {
                 </div>
 
                 <div className="menu-bar">
-                    <Menu mode="horizontal" defaultSelectedKeys={['1']} className="w-100">
-                        <Menu.Item key="1">HOME</Menu.Item>
-                        <Menu.Item key="2">ABOUT</Menu.Item>
-                        <Menu.Item key="3">SHOP</Menu.Item>
-                        <Menu.Item key="4">BLOG</Menu.Item>
-                        <Menu.Item key="5">CONTACTS</Menu.Item>
+                    <Menu mode="horizontal" defaultSelectedKeys={['1']} className="w-100 pt-2 pb-4">
+                        <Menu.Item key="1" className="text-menu">HOME</Menu.Item>
+                        <Menu.Item key="2" className="text-menu">ABOUT</Menu.Item>
+                        <Menu.Item key="3" className="text-menu">SHOP</Menu.Item>
+                        <Menu.Item key="4" className="text-menu">BLOG</Menu.Item>
+                        <Menu.Item key="5" className="text-menu">CONTACTS</Menu.Item>
                     </Menu>
                 </div>
             </div>

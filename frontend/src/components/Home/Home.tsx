@@ -1,8 +1,8 @@
 import React from 'react';
-import Slide from '../../assets/slide-2.jpg';
-import Discount from '../../assets/main-bg-2.jpg';
+
+import { Carousel } from 'antd';
+
 import Timer from './Timer/Timer';
-import './Home.css';
 
 import Brand1 from '../../assets/brand-1.webp';
 import Brand2 from '../../assets/brand-2.webp';
@@ -10,6 +10,8 @@ import Brand3 from '../../assets/brand-3.webp';
 import Brand4 from '../../assets/brand-4.webp';
 import Brand5 from '../../assets/brand-5.webp';
 import Brand6 from '../../assets/brand-6.webp';
+
+import Discount from '../../assets/main-bg-2.jpg';
 
 import Serve1 from '../../assets/image-serv-1.webp';
 import Serve2 from '../../assets/image-serv-2.webp';
@@ -20,15 +22,23 @@ import SportBox2 from '../../assets/sport-box-2.png';
 import SportBox3 from '../../assets/sport-box-3.png';
 import SportBox4 from '../../assets/sport-box-4.png';
 
+import Slide from './Slide/Slide';
+
+import './Home.css';
+
 class Home extends React.Component {
-    render() {
+    render(): JSX.Element {
         return (
             <div>
-                <img src={Slide} alt="Slide" />
+                <Carousel arrows infinite={false}>
+                    <div>
+                        <Slide slide="../../../assets/slide-2.jpg" title="20%" description="Discount" subtitle="And free shipping" />
+                    </div>
+                </Carousel>
                 <div className='container'>
-                    <h3 className='text-center mb-5 mt-5'>SHOP TOP CATEGORIES</h3>
+                    <h3 className='text-title2 text-center mb-5 mt-5'>SHOP TOP CATEGORIES</h3>
                     <div className="d-flex mb-5">
-                        <div className='d-flex p-5 flex-grow-1'>
+                        <div className='d-flex p-5 flex-grow-1 border-start'>
                             <div>
                                 <img src={SportBox1} alt="SportBox1" />
                                 <div className='block-category'>
@@ -54,7 +64,7 @@ class Home extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className='d-flex p-5 flex-grow-1'>
+                        <div className='d-flex p-5 flex-grow-1 border-start border-end'>
                             <div>
                                 <img src={SportBox2} alt="SportBox2" />
                                 <div className='block-category'>
@@ -80,7 +90,7 @@ class Home extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className='d-flex p-5 flex-grow-1'>
+                        <div className='d-flex p-5 flex-grow-1 border-end'>
                             <div>
                                 <img src={SportBox3} alt="SportBox3" />
                                 <div className='block-category'>
@@ -102,7 +112,7 @@ class Home extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className='d-flex p-5 flex-grow-1'>
+                        <div className='d-flex p-5 flex-grow-1 border-end'>
                             <div>
                                 <img src={SportBox4} alt="SportBox4" />
                                 <div className='block-category'>
@@ -130,13 +140,13 @@ class Home extends React.Component {
                 </div>
                 <div style={{ backgroundImage: `url(${Discount})`, width: '100%', height: '620px' }}>
                     <div className='container text-center'>
-                        <h1>DEALS OF THE DAY</h1>
-                        <h3>MUSCLE BUILDING WHEY PROTEIN POWDER</h3>
+                        <h1 className='text-title mb-3 pt-5'>DEALS OF THE DAY</h1>
+                        <h3 className='text-subtitle'>MUSCLE BUILDING WHEY PROTEIN POWDER</h3>
                         <Timer initialDays={0} initialHours={20} initialMinutes={0} initialSeconds={0} />
                     </div>
                 </div>
                 <div className='container'>
-                    <h3 className='text-center mb-5 mt-5'>TOP BRANDS</h3>
+                    <h3 className='text-title2 text-center mb-5 mt-5'>TOP BRANDS</h3>
                     <div className="row align-items-center mb-5">
                         <div className="col brand-column">
                             <img src={Brand1} alt="Brand1" />
