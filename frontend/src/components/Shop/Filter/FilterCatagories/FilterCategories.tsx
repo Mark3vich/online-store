@@ -1,5 +1,6 @@
 import React from 'react';
 import { Checkbox } from 'antd';
+import './FilterCategories.css';
 
 class FilterCategories extends React.Component {
     render(): React.ReactNode {
@@ -11,7 +12,7 @@ class FilterCategories extends React.Component {
         return (
             <div className="filter-block">
                 <h3>PRODUCT CATEGORIES</h3>
-                <Checkbox.Group options={categories} />
+                <Checkbox.Group options={categories} className="category-checkbox-group" />
             </div>
         );
     }

@@ -1,0 +1,17 @@
+.filter-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.category-checkbox-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-checkbox-group-item {
+    margin-bottom: 10px;
+    /* Add some space between checkboxes */
+    display: flex;
+    align-items: center;
+    /* Ensure checkbox and label are aligned */
+}
