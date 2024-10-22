@@ -1,12 +1,16 @@
 import React from 'react';
 import "./Shop.css";
 import Filter from './Filter/Filter';
+import Sort from './Sort/Sort';
 
 class Shop extends React.Component {
     render() {
         return (
             <div className='container'>
-                <Filter />
+                <div className='d-flex justify-content-start'>
+                    <Filter />
+                    <Sort />
+                </div>
             </div>
         );
     }
