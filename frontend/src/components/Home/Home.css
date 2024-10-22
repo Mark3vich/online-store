@@ -1,12 +1,17 @@
 .brand-column {
-    text-align: center; /* Центрирование изображения */
-    flex-grow: 1; /* Чтобы все колонки были равной ширины */
-    border-right: 1px solid #ccc; /* Вертикальная линия между колонками */
-    padding: 0 10px; /* Отступы между изображениями */
+    text-align: center;
+    /* Центрирование изображения */
+    flex-grow: 1;
+    /* Чтобы все колонки были равной ширины */
+    border-right: 1px solid #ccc;
+    /* Вертикальная линия между колонками */
+    padding: 0 10px;
+    /* Отступы между изображениями */
 }
 
 .brand-column:first-child {
-    border-left: 1px solid #ccc; /* Вертикальная линия между колонками */
+    border-left: 1px solid #ccc;
+    /* Вертикальная линия между колонками */
 }
 
 .service-row {
@@ -17,18 +22,22 @@
 .service-col {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Выравнивание содержимого по вертикали */
-    text-align: center; /* Выравнивание по горизонтали */
+    justify-content: center;
+    /* Выравнивание содержимого по вертикали */
+    text-align: center;
+    /* Выравнивание по горизонтали */
     padding: 20px;
-    flex-grow: 1; /* Колонки равной ширины */
+    flex-grow: 1;
+    /* Колонки равной ширины */
 }
 
 .service-col img {
     margin-bottom: 20px;
-    max-width: 100px; /* Ограничиваем размер изображений, можно изменить */
+    max-width: 100px;
+    /* Ограничиваем размер изображений, можно изменить */
 }
 
-.block-category p { 
+.block-category p {
     font-size: 14px;
     font-weight: 400;
     color: #757b91;
@@ -65,4 +74,37 @@
     font-style: normal;
     line-height: 26px;
     letter-spacing: 0.7px;
+}
+
+.carousel-arrow {
+    width: 50px;
+    height: 50px;
+    background-color: #007bff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    cursor: pointer;
+}
+
+.carousel-arrow svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+.prev-arrow {
+    left: -60px;
+}
+
+.next-arrow {
+    right: -60px;
+}
+
+.carousel-arrow:hover {
+    background-color: #0056b3;
 }

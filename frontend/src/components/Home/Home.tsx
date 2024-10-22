@@ -23,9 +23,18 @@ import './Home.css';
 import Category from './Category/Category';
 import Product from './Product/Product';
 
+import { GoArrowLeft } from "react-icons/go";
+import { GoArrowRight } from "react-icons/go";
+
+import { MouseEventHandler } from 'react';
+
 interface Brand {
     src: string;
     alt: string;
+}
+
+interface ArrowProps {
+    onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 class Home extends React.Component {
@@ -37,6 +46,18 @@ class Home extends React.Component {
         { src: Brand5, alt: "Brand5" },
         { src: Brand6, alt: "Brand6" }
     ];
+
+    private NextArrow = ({ onClick }: ArrowProps) => (
+        <div className="carousel-arrow next-arrow" onClick={onClick}>
+            <GoArrowRight />
+        </div>
+    );
+
+    private PrevArrow = ({ onClick }: ArrowProps) => (
+        <div className="carousel-arrow prev-arrow" onClick={onClick}>
+            <GoArrowLeft />
+        </div>
+    );
 
     render(): JSX.Element {
         return (
@@ -77,13 +98,22 @@ class Home extends React.Component {
                         />
                     </div>
                 </div>
-                <div style={{ backgroundImage: `url(${Discount})`, width: '100%', minHeight: '620px', paddingBottom: '15px' }}>
+                <div style={{ backgroundImage: `url(${Discount})`, width: '100%', minHeight: '620px', paddingBottom: '25px', backgroundSize: 'cover', backgroundPosition: 'center' }}>
                     <div className='container text-center'>
                         <h1 className='text-title mb-3 pt-5'>DEALS OF THE DAY</h1>
                         <h3 className='text-subtitle'>MUSCLE BUILDING WHEY PROTEIN POWDER</h3>
                         <Timer initialDays={0} initialHours={20} initialMinutes={0} initialSeconds={0} />
-                        <Carousel arrows infinite={false}>
-                            <Product alt='Whey Protein' image='../../../assets/day1.webp' title='Pulse-Pre-Workout' description="31g of Whey Protein with Amino. Whey Protein Blends combines multiple..." price='44.00'/>
+                        <Carousel arrows infinite={false}
+                            prevArrow={<this.PrevArrow />}
+                            nextArrow={<this.NextArrow />}>
+                            <div className='d-flex justify-content-center mt-5 mb-5'>
+                                <Product alt='Whey Protein' image='../../../assets/day1.webp' title='Pulse-Pre-Workout' description="31g of Whey Protein with Amino. Whey Protein Blends combines multiple..." price='44.00' />
+                                <Product alt="Whey Protein 2" image='../../../assets/day2.webp' title='INSTANT-OATS-POWDER' description="27g of Whey Protein with Amino. Whey Protein Blends combines multiple source of protein to support lean muscle! Great for anytime of the day – especially post-workout." price='54.00' />
+                                <Product alt="Whey Protein 3" image='../../../assets/day3.webp' title='MASS-TECH-PERFORMANCE' description="Whey Protein Blends combines multiple source of protein to support lean muscle! Great for anytime of the day – especially post-workout. Our nutrition store offers great choice of different nutrition supplements." price='21.00 – $43.00' />
+                            </div>
+                            <div>
+                                <Product alt='Whey Protein 4' image='../../../assets/day4.webp' title='MUSCLEPHARM CORE FISH OIL' description="Whey Protein Blends combines multiple source of protein to support lean muscle! Great for anytime of the day – especially post-workout." price='15.00 – $43.00' />
+                            </div>
                         </Carousel>
                     </div>
                 </div>

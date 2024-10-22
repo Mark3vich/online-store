@@ -39,4 +39,4 @@ class Product extends React.Component<ProductProps> {
     }
 }
 
-export default Product
+export default Product;

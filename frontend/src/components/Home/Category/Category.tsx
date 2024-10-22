@@ -10,7 +10,7 @@ class Category extends React.Component<CategoryProps> {
     constructor(props: CategoryProps) {
         super(props);
     }
-    render() {
+    render(): JSX.Element {
         return (
             <div className='d-flex p-5 flex-grow-1 border-start border-end'>
                 <div>
