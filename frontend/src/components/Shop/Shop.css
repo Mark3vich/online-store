@@ -1,0 +1,34 @@
+.filter-sidebar {
+  padding: 20px;
+  background-color: #fff;
+  display: block;
+}
+
+.filter-block {
+  margin-bottom: 30px;
+}
+
+.filter-block h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.filter-block p {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.ant-slider-track {
+  background-color: #007bff !important;
+}
+
+.ant-checkbox-wrapper {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.ant-input-search-button {
+  background-color: #007bff;
+  color: white;
+}

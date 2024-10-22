@@ -3,9 +3,30 @@ import { Input, Button, Menu } from 'antd';
 import { SearchOutlined, SettingOutlined, HeartOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Logo from '../../assets/logo.webp';
-import './Header.css'; 
+import './Header.css';
+import { Link, Location } from 'react-router-dom';
+import withLocation from '../../hooks/withLocation';
 
-class Header extends React.Component {
+interface ShopProps {
+    location: Location; // Указываем что location обязателен
+}
+
+class Header extends React.Component<ShopProps> {
+    private getSelectedKey = () => {
+        const {location} = this.props;// Получаем текущий маршрут
+        switch (location.pathname) {
+            case '/':
+                return '1';
+            case '/about':
+                return '2';
+            case '/shop':
+                return '3';
+            case '/contacts':
+                return '5';
+            default:
+                return '1'; // Значение по умолчанию, если маршрут не найден
+        }
+    };
     render() {
         return (
             <div className="header bg-white pt-4 container">
@@ -37,17 +58,27 @@ class Header extends React.Component {
                 </div>
 
                 <div className="menu-bar">
-                    <Menu mode="horizontal" defaultSelectedKeys={['1']} className="w-100 pt-2 pb-4">
-                        <Menu.Item key="1" className="text-menu">HOME</Menu.Item>
-                        <Menu.Item key="2" className="text-menu">ABOUT</Menu.Item>
-                        <Menu.Item key="3" className="text-menu">SHOP</Menu.Item>
-                        <Menu.Item key="4" className="text-menu">BLOG</Menu.Item>
-                        <Menu.Item key="5" className="text-menu">CONTACTS</Menu.Item>
+                    <Menu mode="horizontal"
+                        selectedKeys={[this.getSelectedKey()]}
+                        className="w-100 pt-2 pb-4"
+                    >
+                        <Menu.Item key="1" className="text-menu">
+                            <Link to="/" style={{ textDecorationLine: 'none' }}>HOME</Link>
+                        </Menu.Item>
+                        <Menu.Item key="2" className="text-menu">
+                            <Link to="/about" style={{ textDecorationLine: 'none' }}>ABOUT</Link>
+                        </Menu.Item>
+                        <Menu.Item key="3" className="text-menu">
+                            <Link to="/shop" style={{ textDecorationLine: 'none' }}>SHOP</Link>
+                        </Menu.Item>
+                        <Menu.Item key="5" className="text-menu">
+                            <Link to="/contacts" style={{ textDecorationLine: 'none' }}>CONTACTS</Link>
+                        </Menu.Item>
                     </Menu>
                 </div>
-            </div>
+            </div >
         );
     }
 }
 
-export default Header;
+export default withLocation(Header);
