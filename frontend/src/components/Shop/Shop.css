@@ -6,6 +6,9 @@
 
 .filter-block {
   margin-bottom: 30px;
+  padding: 30px;
+  border-color: #ebeced;
+  border: 1px solid #ebeced;
 }
 
 .filter-block h3 {
