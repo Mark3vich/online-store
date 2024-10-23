@@ -7,9 +7,10 @@ import './Header.css';
 import { Link, Location } from 'react-router-dom';
 import withLocation from '../../hooks/withLocation';
 import Login from '../Profile/Login/Login';
-
+import Register from '../Profile/Register/Register';
 interface AppState {
     isModalVisible: boolean;
+    modalType: 'login' | 'register';
 }
 
 interface ShopProps {
@@ -21,6 +22,7 @@ class Header extends React.Component<ShopProps, AppState> {
         super(props);
         this.state = {
             isModalVisible: false, // Modal visibility for registration form
+            modalType: 'login',
         };
     }
 
@@ -28,11 +30,21 @@ class Header extends React.Component<ShopProps, AppState> {
     protected handleUserClick = () => {
         const token = localStorage.getItem('token');
         if (!token) {
-            this.setState({ isModalVisible: true });
+            this.setState({ isModalVisible: true, modalType: 'login' });
         } else {
             // Handle the case where token exists, e.g., redirect to the user's profile
             console.log('Token found:', token);
         }
+    };
+
+    // Switch to the login form in the modal
+    protected handleSwitchToLogin = () => {
+        this.setState({ modalType: 'login' }); // Switch to login modal
+    };
+
+    // Switch to the registration modal
+    protected handleSwitchToRegister = () => {
+        this.setState({ modalType: 'register' }); // Switch to registration modal
     };
 
     // Close the registration modal
@@ -54,7 +66,24 @@ class Header extends React.Component<ShopProps, AppState> {
                 return '1'; // Значение по умолчанию, если маршрут не найден
         }
     };
+
+    // Открытие модального окна для логина
+    private openLoginModal = () => {
+        this.setState({ isModalVisible: true, modalType: 'login' });
+    };
+
+    // Открытие модального окна для регистрации
+    private openRegisterModal = () => {
+        this.setState({ isModalVisible: true, modalType: 'register' });
+    };
+
+    // Закрытие модального окна
+    private closeModal = () => {
+        this.setState({ isModalVisible: false });
+    };
+
     render() {
+        const { isModalVisible, modalType } = this.state;
         return (
             <div className="header bg-white pt-4 container">
                 <div className="d-flex justify-content-between align-items-center mb-2">
@@ -82,11 +111,17 @@ class Header extends React.Component<ShopProps, AppState> {
                         <Button icon={<UserOutlined />} shape="circle" className="me-2" onClick={this.handleUserClick} />
                         <Button icon={<ShoppingCartOutlined />} shape="circle" />
                         <Modal
-                            visible={this.state.isModalVisible}
-                            onCancel={this.handleModalClose}
-                            footer={null} // No footer buttons
+                            title={modalType === 'login' ? 'Login' : 'Register'}
+                            visible={isModalVisible}
+                            onCancel={this.closeModal}
+                            footer={null} // Убираем нижние кнопки
+                            destroyOnClose={true} // Уничтожаем содержимое после закрытия
                         >
-                            <Login /> 
+                            {modalType === 'login' ? (
+                                <Login onRegisterClick={this.openRegisterModal} />
+                            ) : (
+                                <Register onLoginClick={this.openLoginModal} />
+                            )}
                         </Modal>
                     </div>
                 </div>

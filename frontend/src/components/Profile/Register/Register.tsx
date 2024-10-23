@@ -1,119 +1,104 @@
 import React from 'react';
-import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Form, Input, Button, Upload, Checkbox, Typography } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
-// Define the type for form fields
-type FieldType = {
-    name: string;
-    image: string;
-    email: string;
-    password: string;
-    password2: string; // Password confirmation
-};
+const { Text, Link } = Typography;
 
-class Register extends React.Component {
-    // Handle form submission success
-    private onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+interface RegisterProps {
+    onLoginClick: () => void; // Пропс для переключения на форму входа
+}
+
+interface FieldType {
+    username?: string;
+    name?: string;
+    avatar?: File;
+    password?: string;
+    confirmPassword?: string;
+    remember?: boolean;
+}
+
+class Register extends React.Component<RegisterProps> {
+    // Обработчик успешной отправки формы
+    private onFinish = (values: FieldType) => {
+        console.log('Register Success:', values);
     };
 
-    // Handle form submission failure
-    private onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    // Обработчик неудачной отправки формы
+    private onFinishFailed = (errorInfo: any) => {
+        console.log('Register Failed:', errorInfo);
     };
 
-    render(): JSX.Element {
+    render() {
         return (
-            <div style={{ maxWidth: '400px', margin: '0 auto' }}>
-                <h1>Register</h1>
-
-                {/* Ant Design Form */}
-                <Form
-                    name="register"
-                    initialValues={{ remember: true }}
-                    onFinish={this.onFinish}
-                    onFinishFailed={this.onFinishFailed}
-                    layout="vertical"
+            <Form
+                name="register"
+                layout="vertical"
+                initialValues={{ remember: true }}
+                onFinish={this.onFinish}
+                onFinishFailed={this.onFinishFailed}
+            >
+                <Form.Item
+                    label="Username"
+                    name="username"
+                    rules={[{ required: true, message: 'Please input your username!' }]}
                 >
-                    {/* Name Field */}
-                    <Form.Item
-                        label="Name"
-                        name="name"
-                        rules={[{ required: true, message: 'Please input your name!' }]}
-                    >
-                        <Input placeholder="Enter your name" />
-                    </Form.Item>
+                    <Input />
+                </Form.Item>
 
-                    {/* Image Field */}
-                    <Form.Item
-                        label="Image URL"
-                        name="image"
-                        rules={[{ required: true, message: 'Please input the image URL!' }]}
-                    >
-                        <Input placeholder="Enter image URL" />
-                    </Form.Item>
+                <Form.Item
+                    label="Avatar"
+                    name="avatar"
+                    valuePropName="fileList"
+                    getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
+                >
+                    <Upload name="avatar" listType="picture" beforeUpload={() => false}>
+                        <Button icon={<UploadOutlined />}>Upload Avatar</Button>
+                    </Upload>
+                </Form.Item>
 
-                    {/* Email Field */}
-                    <Form.Item
-                        label="Email"
-                        name="email"
-                        rules={[
-                            { required: true, message: 'Please input your email!' },
-                            { type: 'email', message: 'Please enter a valid email address!' }
-                        ]}
-                    >
-                        <Input placeholder="Enter your email" />
-                    </Form.Item>
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                    <Input.Password />
+                </Form.Item>
 
-                    {/* Password Field */}
-                    <Form.Item
-                        label="Password"
-                        name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
-                    >
-                        <Input.Password placeholder="Enter your password" />
-                    </Form.Item>
+                <Form.Item
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    dependencies={['password']}
+                    hasFeedback
+                    rules={[
+                        { required: true, message: 'Please confirm your password!' },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('The two passwords do not match!'));
+                            },
+                        }),
+                    ]}
+                >
+                    <Input.Password />
+                </Form.Item>
 
-                    {/* Confirm Password Field */}
-                    <Form.Item
-                        label="Confirm Password"
-                        name="password2"
-                        dependencies={['password']}
-                        hasFeedback
-                        rules={[
-                            { required: true, message: 'Please confirm your password!' },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (!value || getFieldValue('password') === value) {
-                                        return Promise.resolve();
-                                    }
-                                    return Promise.reject(new Error('Passwords do not match!'));
-                                },
-                            }),
-                        ]}
-                    >
-                        <Input.Password placeholder="Confirm your password" />
-                    </Form.Item>
+                <Form.Item name="remember" valuePropName="checked">
+                    <Checkbox>Remember me</Checkbox>
+                </Form.Item>
 
-                    {/* Agreement Checkbox */}
-                    <Form.Item
-                        name="agreement"
-                        valuePropName="checked"
-                        rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject('You must agree to the terms') }]}
-                    >
-                        <Checkbox>
-                            I agree to the <a href="#">Terms and Conditions</a>
-                        </Checkbox>
-                    </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" block>
+                        Register
+                    </Button>
+                </Form.Item>
 
-                    {/* Submit Button */}
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" block>
-                            Register
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
+                <Text type="secondary">
+                    Already have an account?{' '}
+                    <Link onClick={this.props.onLoginClick}>Login here</Link>
+                </Text>
+            </Form>
         );
     }
 }
