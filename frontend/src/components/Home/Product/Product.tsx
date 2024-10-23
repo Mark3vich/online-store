@@ -3,10 +3,13 @@ import './Product.css';
 
 interface ProductProps {
     image: string;
+    border: boolean;
     alt: string;
     title: string;
     description: string;
     price: string;
+    width: string;
+    padding: string;
 }
 
 class Product extends React.Component<ProductProps> {
@@ -16,7 +19,7 @@ class Product extends React.Component<ProductProps> {
 
     render() {
         return (
-            <div className="product-container border-start border-end">
+            <div className={`product-container ${this.props.border ? 'border-start border-end' : ''}`} style={{ width: this.props.width, padding: this.props.padding }}>
                 <img src={this.props.image} alt={this.props.alt} />
                 <p style={{
                     color: '#0185ce',
