@@ -22,7 +22,16 @@ export const registerUser = async (data: IRegisterUser): Promise<any> => {
             },
         });
 
-        return response.data; // Возвращаем данные ответа
+        const data = response.data;
+
+        // Обрабатываем полученные данные
+        const token = data.token;
+
+        if (token) {
+            localStorage.setItem('token', token);
+        }
+
+        return data; // Возвращаем данные ответа
     } catch (error) {
         console.error('Registration error:', error);
         // Обрабатываем ошибку (можно также пробросить её дальше, чтобы обработать в компоненте)
