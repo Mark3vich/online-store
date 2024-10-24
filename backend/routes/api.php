@@ -10,6 +10,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
     Route::apiResource('users', UserController::class);
     Route::apiResource('categories', CategoryController::class);
-    Route::get('categories_products', [CategoryController::class, 'getAllCategoriesWithProducts']);
     Route::apiResource('products', ProductController::class);
 });
+
+Route::get('categories_all', [CategoryController::class, 'getAllCategoriesWithProducts']);

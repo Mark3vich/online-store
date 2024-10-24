@@ -1,18 +1,47 @@
 import React from 'react';
-import { Checkbox } from 'antd';
+import { Checkbox, message } from 'antd';
 import './FilterCategories.css';
+import ICategory from '../../../../interfaces/ICategory';
+import { getCategories } from '../../../../services/CategoriesService';
 
-class FilterCategories extends React.Component {
+interface FilterCategoriesState {
+    categories: { label: string; value: string }[];
+}
+
+class FilterCategories extends React.Component<{}, FilterCategoriesState> {
+    constructor(props: {}) {
+        super(props);
+        this.state = {
+            categories: [], // Изначально категории пустые
+        };
+    }
+
+    async componentDidMount() {
+        try {
+            const categories: ICategory[] = await getCategories(); // Вызов сервиса
+            // Обновление состояния с полученными категориями
+            this.setState({
+                categories: categories.map((category: ICategory) => ({
+                    label: category.title, // Отображаемое название категории
+                    value: String(category.id),
+                })),
+            });
+        } catch (error) {
+            message.error('Failed to load categories'); // Обработка ошибки
+            console.error('Error fetching categories:', error);
+        }
+    }
+
     render(): React.ReactNode {
-        const categories = [
-            { label: 'Build Muscle', value: 'build-muscle' },
-            { label: 'Improve Workout', value: 'improve-workout' },
-            { label: 'Lose Fat', value: 'lose-fat' },
-        ];
+        const { categories } = this.state;
         return (
             <div className="filter-block">
                 <h3>PRODUCT CATEGORIES</h3>
-                <Checkbox.Group options={categories} className="category-checkbox-group" />
+                {categories.length > 0 ? (
+                    <Checkbox.Group options={categories} className="category-checkbox-group" />
+                ) : (
+                    <p>No categories available</p>
+                )}
             </div>
         );
     }

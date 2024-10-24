@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Checkbox, Button, Typography, message } from 'antd';
+import { Form, Input, Button, Typography, message } from 'antd';
 import ILoginUser from '../../../interfaces/ILoginUser';
 import { loginUser } from '../../../services/LoginService';
 

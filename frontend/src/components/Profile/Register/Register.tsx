@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Upload, Checkbox, Typography } from 'antd';
+import { Form, Input, Button, Upload, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import IRegisterUser from '../../../interfaces/IRegisterUser';
 import { registerUser } from '../../../services/RegisterService';
