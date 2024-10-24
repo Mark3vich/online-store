@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, Upload, Checkbox, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import IRegisterUser from '../../../interfaces/IRegisterUser';
+import { registerUser } from '../../../services/RegisterService';
 
 const { Text, Link } = Typography;
 
@@ -8,19 +10,30 @@ interface RegisterProps {
     onLoginClick: () => void; // Пропс для переключения на форму входа
 }
 
-interface FieldType {
-    username?: string;
-    name?: string;
-    avatar?: File;
-    password?: string;
-    confirmPassword?: string;
-    remember?: boolean;
+interface RegisterState {
+    loading: boolean; // Для индикации загрузки
 }
 
-class Register extends React.Component<RegisterProps> {
+class Register extends React.Component<RegisterProps, RegisterState> {
+    constructor(props: RegisterProps) {
+        super(props);
+        this.state = {
+            loading: false, // Состояние загрузки
+        };
+    }
     // Обработчик успешной отправки формы
-    private onFinish = (values: FieldType) => {
-        console.log('Register Success:', values);
+    private onFinish = async (values: IRegisterUser) => {
+        this.setState({ loading: true });
+        try {
+            const response = await registerUser(values);
+            console.log('User registered successfully:', response);
+            // Дополнительно: можно сделать редирект на страницу логина или показать уведомление
+        } catch (error) {
+            console.error('Registration error:', error);
+            // Показать уведомление об ошибке
+        } finally {
+            this.setState({ loading: false });
+        }
     };
 
     // Обработчик неудачной отправки формы
@@ -38,20 +51,28 @@ class Register extends React.Component<RegisterProps> {
                 onFinishFailed={this.onFinishFailed}
             >
                 <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    label="name"
+                    name="name"
+                    rules={[{ required: true, message: 'Please input your name!' }]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label="Avatar"
-                    name="avatar"
-                    valuePropName="fileList"
-                    getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your email!' }]}
                 >
-                    <Upload name="avatar" listType="picture" beforeUpload={() => false}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Image"
+                    name="image"
+                    valuePropName="file"
+                    getValueFromEvent={(e) => (e && e.file)}
+                >
+                    <Upload name="image" listType="picture" beforeUpload={() => false}>
                         <Button icon={<UploadOutlined />}>Upload Avatar</Button>
                     </Upload>
                 </Form.Item>
@@ -66,7 +87,7 @@ class Register extends React.Component<RegisterProps> {
 
                 <Form.Item
                     label="Confirm Password"
-                    name="confirmPassword"
+                    name="password_confirmation"
                     dependencies={['password']}
                     hasFeedback
                     rules={[
@@ -82,10 +103,6 @@ class Register extends React.Component<RegisterProps> {
                     ]}
                 >
                     <Input.Password />
-                </Form.Item>
-
-                <Form.Item name="remember" valuePropName="checked">
-                    <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
                 <Form.Item>

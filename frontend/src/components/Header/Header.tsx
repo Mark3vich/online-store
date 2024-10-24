@@ -51,6 +51,7 @@ class Header extends React.Component<ShopProps, AppState> {
     protected handleModalClose = () => {
         this.setState({ isModalVisible: false });
     };
+    
     private getSelectedKey = () => {
         const { location } = this.props;// Получаем текущий маршрут
         switch (location.pathname) {
