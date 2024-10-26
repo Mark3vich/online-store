@@ -3,21 +3,22 @@
 namespace App\Http\Services;
 
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProductService 
+class ProductService
 {
     /**
      * Get all users
      *
-     * @return Collection
+     * @return LengthAwarePaginator
      */
-    public function getAllProducts(): Collection
+    public function getAllProducts(): LengthAwarePaginator
     {
         $products = Product::with('category:id,title')
-        ->select('id', 'title', 'description', 'image', 'price', 'discount', 'category_id')
-        ->get();
-        return new Collection($products->map(function ($product) {
+            ->select('id', 'title', 'description', 'image', 'price', 'discount', 'category_id')
+            ->paginate(9);
+
+        $products->getCollection()->transform(function ($product) {
             return [
                 'id' => $product->id,
                 'title' => $product->title,
@@ -27,7 +28,9 @@ class ProductService
                 'discount' => $product->discount,
                 'category' => optional($product->category)->title,
             ];
-        }));
+        });
+
+        return $products;
     }
 
     /**

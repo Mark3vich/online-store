@@ -23,6 +23,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Review::class);
     }
 
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, "likeable");
+    }
+
     // Добавь необходимые методы для JWT
     public function getJWTIdentifier()
     {
