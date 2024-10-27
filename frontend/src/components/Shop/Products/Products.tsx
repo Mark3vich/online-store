@@ -1,56 +1,84 @@
 import React from 'react';
+import { getProducts } from '../../../services/ProductService'; // Adjust path as necessary
+import IProduct from '../../../interfaces/IProduct'; // Adjust path as necessary
+import Pagination from 'antd/lib/pagination'; // Adjust path as necessary
 import Product from '../../Home/Product/Product';
-import { Pagination } from 'antd';
+import IProductPagination from '../../../interfaces/IProductPagination';
 
 interface ProductListProps { }
 
 interface ProductListState {
+    products: IProduct[];
     currentPage: number;
     pageSize: number;
+    loading: boolean;
+    total: number;
 }
 
 class Products extends React.Component<ProductListProps, ProductListState> {
     constructor(props: ProductListProps) {
         super(props);
         this.state = {
+            products: [],
             currentPage: 1,
             pageSize: 9, // 9 products per page
+            loading: true,
+            total: 0,
         };
     }
 
-    handlePageChange = (page: number) => {
-        this.setState({ currentPage: page });
+    async componentDidMount() {
+        await this.fetchProducts(this.state.currentPage);
+    }
+
+    private fetchProducts = async (page: number) => {
+        try {
+            const products: IProductPagination = await getProducts(page);
+            console.log("Products fetched successfully:", products);
+            this.setState({
+                products: products.products,
+                currentPage: products.currentPage,
+                pageSize: products.pageSize,
+                total: products.total,
+                loading: false
+            });
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            this.setState({ loading: false });
+        }
+    };
+
+    private handlePageChange = (page: number) => {
+        this.setState({ currentPage: page, loading: true }, () => {
+            this.fetchProducts(page);
+        });
     };
 
     render() {
-        const products = [
-            { width: '320px', padding: '30px', border: false, alt: 'Whey Protein', image: '../../../assets/day1.webp', title: 'Pulse-Pre-Workout', description: '31g of Whey Protein with Amino...', price: '44.00' },
-            { width: '320px', padding: '30px', border: false, alt: 'Whey Protein 2', image: '../../../assets/day2.webp', title: 'INSTANT-OATS-POWDER', description: '27g of Whey Protein with Amino...', price: '54.00' },
-            { width: '320px', padding: '30px', border: false, alt: 'Whey Protein 3', image: '../../../assets/day3.webp', title: 'MASS-TECH-PERFORMANCE', description: 'Whey Protein Blends combines multiple...', price: '21.00 – $43.00' },
-            { width: '320px', padding: '30px', border: false, alt: 'Whey Protein 4', image: '../../../assets/day2.webp', title: 'INSTANT-OATS-POWDER', description: '27g of Whey Protein with Amino...', price: '54.00' },
-            // Add more products as needed (for demo, you will need at least 10+)
-        ];
-
-        const { currentPage, pageSize } = this.state;
-        const startIndex = (currentPage - 1) * pageSize;
-        const paginatedProducts = products.slice(startIndex, startIndex + pageSize);
+        const { products, currentPage, pageSize, loading, total } = this.state;
 
         return (
             <div>
-                <div className='product-grid mt-3'>
-                    {paginatedProducts.map((product, index) => (
-                        <Product key={index} {...product} />
-                    ))}
-                </div>
+                {loading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <>
+                        <div className="product-grid mt-3">
+                            {products.map((product, index) => (
+                                <Product key={product.id || index} {...product} />
+                            ))}
+                        </div>
 
-                {/* Pagination Component */}
-                <Pagination
-                    current={this.state.currentPage}
-                    pageSize={this.state.pageSize}
-                    total={products.length} // Total number of products
-                    onChange={this.handlePageChange}
-                    className='mt-4 mb-5 text-center d-flex justify-content-center' 
-                />
+                        {/* Pagination Component */}
+                        <Pagination
+                            current={currentPage}
+                            pageSize={pageSize}
+                            total={total} // Total number of products
+                            onChange={this.handlePageChange}
+                            className="mt-4 mb-5 text-center d-flex justify-content-center"
+                        />
+                    </>
+                )}
             </div>
         );
     }

@@ -3,24 +3,41 @@ import './Product.css';
 
 interface ProductProps {
     image: string;
-    border: boolean;
-    alt: string;
+    border?: boolean;
+    alt?: string;
     title: string;
     description: string;
     price: string;
-    width: string;
-    padding: string;
+    width?: string;
+    padding?: string;
 }
 
 class Product extends React.Component<ProductProps> {
+    static defaultProps = {
+        border: false,
+        width: '320px',
+        padding: '30px',
+        alt: 'Whey Protein',
+    };
+
     constructor(props: ProductProps) {
         super(props);
     }
 
     render() {
+        const {
+            image,
+            title,
+            description,
+            price,
+            border = Product.defaultProps.border,
+            width = Product.defaultProps.width,
+            padding = Product.defaultProps.padding,
+            alt = Product.defaultProps.alt,
+        } = this.props;
         return (
-            <div className={`product-container ${this.props.border ? 'border-start border-end' : ''}`} style={{ width: this.props.width, padding: this.props.padding }}>
-                <img src={this.props.image} alt={this.props.alt} />
+            <div className={`product-container ${border ? 'border-start border-end' : ''}`} style={{ width: width, padding: padding }}>
+                <img src={image} alt={alt} />
                 <p style={{
                     color: '#0185ce',
                     fontFamily: "Oswald",
@@ -31,10 +48,10 @@ class Product extends React.Component<ProductProps> {
                     textDecoration: 'none',
                     lineHeight: '18px',
                     letterSpacing: '0.6px'
-                }}>{this.props.title}</p>
-                <p className='text-title2'>${this.props.price}</p>
+                }}>{title}</p>
+                <p className='text-title2'>${price}</p>
                 <div className="product-show">
-                    <p className='text-title2' style={{ color: '#fff', fontSize: '12px' }}>{this.props.description}</p>
+                    <p className='text-title2' style={{ color: '#fff', fontSize: '12px' }}>{description}</p>
                     <button className='button-shop' style={{ border: 'none', marginTop: '0px' }}>Add to cart</button>
                 </div>
             </div>
