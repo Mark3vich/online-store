@@ -4,16 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Services\UserService;
-use App\Http\Services\JWTAuthService;
 use App\Http\Controllers\Api\JWTAuthController;
 
 class UserController extends JWTAuthController
 {
     protected $userService;
 
-    public function __construct(UserService $userService, JWTAuthService $jwtAuthService)
+    public function __construct(UserService $userService)
     {
-        parent::__construct($jwtAuthService);
         $this->userService = $userService;
     }
 

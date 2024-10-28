@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\{UserController, CategoryController, ProductController, CartController};
+use App\Http\Controllers\Api\{UserController, CategoryController, ProductController, CartController, JWTAuthController};
 
-Route::post('register', [UserController::class, 'register']);
-Route::post('login', [UserController::class, 'login']);
+Route::post('register', [JWTAuthController::class, 'register']);
+Route::post('login', [JWTAuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('logout', [UserController::class, 'logout']);
+    Route::post('logout', [JWTAuthController::class, 'logout']);
     Route::apiResource('users', UserController::class);
     Route::apiResource('categories', CategoryController::class);
     Route::post('cart', [CartController::class, 'store']);

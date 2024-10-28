@@ -10,7 +10,8 @@ class CartController extends Controller
 {
     protected $cartService;
 
-    public function __construct(CartService $cart) {
+    public function __construct(CartService $cart)
+    {
         $this->cartService = $cart;
     }
     /**
@@ -19,8 +20,23 @@ class CartController extends Controller
     public function store(CartRequest $request)
     {
         $validatedData = $request->validated();
-        $cart = $this->cartService->createCartItemsUser($validatedData, $request->user()->id);
-        return response()->json($cart, 201);
+        $token = $request->header('Authorization'); // Извлекаем заголовок Authorization
+
+        if (!$token) {
+            return response()->json(['error' => 'Authorization token is missing'], 400);
+        }
+
+        // Убираем "Bearer " из токена
+        if (strpos($token, 'Bearer ') === 0) {
+            $token = substr($token, 7);
+        }
+
+        try {
+            $cart = $this->cartService->createCartItemsUser($validatedData, $token);
+            return response()->json($cart, 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     /**
@@ -37,6 +53,6 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        
+
     }
 }

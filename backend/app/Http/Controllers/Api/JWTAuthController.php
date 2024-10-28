@@ -25,6 +25,10 @@ class JWTAuthController extends Controller
     public function register(UserRequest $request)
     {
         $registerResponse = $this->jwtAuthService->register($request->validated());
+        $user = $registerResponse['user']; 
+
+        $user->cart()->create();
+
         return response()->json($registerResponse, 201);
     }
 

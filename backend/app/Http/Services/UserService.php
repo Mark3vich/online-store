@@ -5,6 +5,8 @@ namespace App\Http\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class UserService
 {
@@ -46,10 +48,32 @@ class UserService
         $data['password'] = Hash::make($data['password']);
 
         if (isset($data['image'])) {
-            $imagePath = $data['image']->store('avatars', 'public'); 
-            $data['avatar'] = $imagePath; 
+            $imagePath = $data['image']->store('avatars', 'public');
+            $data['avatar'] = $imagePath;
         }
-        return User::create($data);
+
+        $user = User::create($data);
+        $cart = $user->cart()->create();
+
+        // Попытка создания корзины
+        try {
+            $cart = $user->cart()->create();
+            if (!$cart) {
+                throw new Exception("Ошибка создания корзины");
+            }
+            Log::info('Корзина успешно создана для пользователя: ' . $user->id);
+        } catch (Exception $e) {
+            // Логирование ошибки
+            Log::error("Не удалось создать корзину для пользователя: {$user->id}. Ошибка: " . $e->getMessage());
+
+            // Удаление пользователя, чтобы не сохранять его без корзины
+            $user->delete();
+
+            // Выброс исключения
+            throw new Exception("Не удалось создать корзину для пользователя.");
+        }
+
+        return $user;
     }
 
     /**
@@ -62,8 +86,8 @@ class UserService
     {
         // Жадная загрузка пользователей с ролями, выбираем только title из роли
         $user = User::with('role:id,title')
-        ->select('id', 'name', 'image', 'email', 'password', 'role_id', 'created_at', 'updated_at')
-        ->findOrFail($id);
+            ->select('id', 'name', 'image', 'email', 'password', 'role_id', 'created_at', 'updated_at')
+            ->findOrFail($id);
 
         return [
             'id' => $user->id,

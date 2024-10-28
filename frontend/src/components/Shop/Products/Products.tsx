@@ -21,7 +21,7 @@ class Products extends React.Component<ProductListProps, ProductListState> {
         this.state = {
             products: [],
             currentPage: 1,
-            pageSize: 9, // 9 products per page
+            pageSize: 9, 
             loading: true,
             total: 0,
         };
@@ -69,7 +69,6 @@ class Products extends React.Component<ProductListProps, ProductListState> {
                             ))}
                         </div>
 
-                        {/* Pagination Component */}
                         <Pagination
                             current={currentPage}
                             pageSize={pageSize}

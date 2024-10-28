@@ -11,7 +11,7 @@ class CartRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class CartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "user_id"=> "required|exists:users,id",
+            "cart_id" => "required|exists:carts,id",
             "product_id"=> "required|exists:products,id",
             "quantity"=> "required|integer",
             "status"=> "required|boolean",
