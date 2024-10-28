@@ -53,25 +53,6 @@ class UserService
         }
 
         $user = User::create($data);
-        $cart = $user->cart()->create();
-
-        // Попытка создания корзины
-        try {
-            $cart = $user->cart()->create();
-            if (!$cart) {
-                throw new Exception("Ошибка создания корзины");
-            }
-            Log::info('Корзина успешно создана для пользователя: ' . $user->id);
-        } catch (Exception $e) {
-            // Логирование ошибки
-            Log::error("Не удалось создать корзину для пользователя: {$user->id}. Ошибка: " . $e->getMessage());
-
-            // Удаление пользователя, чтобы не сохранять его без корзины
-            $user->delete();
-
-            // Выброс исключения
-            throw new Exception("Не удалось создать корзину для пользователя.");
-        }
 
         return $user;
     }

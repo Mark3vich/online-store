@@ -21,6 +21,7 @@ class JWTAuthService {
         }
 
         $user = User::create($data);
+        $user->cart()->create();
         $token = JWTAuth::fromUser($user);
         return compact('user', 'token');
     }    

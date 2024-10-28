@@ -23,8 +23,6 @@ class CartRequest extends FormRequest
     {
         return [
             '*.product_id' => 'required|exists:products,id',   // Каждый элемент массива должен иметь product_id, который существует в таблице products
-            '*.quantity' => 'required|integer|min:1',         // Количество должно быть числом и минимум 1
-            '*.status' => 'required|boolean'
         ];
     }
 }

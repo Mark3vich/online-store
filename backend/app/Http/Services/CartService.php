@@ -35,6 +35,12 @@ class CartService
                 throw new Exception('Пользователь с указанным токеном не найден.');
             }
 
+            // Находим или создаем корзину с новыми полями `quantity` и `status`
+            $cart = Cart::firstOrCreate(
+                ['user_id' => $user->id],
+                ['quantity' => 0, 'status' => false]
+            );
+
             // Находим корзину, связанную с этим пользователем
             $cart = Cart::where('user_id', $user->id)->first();
             if (!$cart) {
@@ -45,6 +51,7 @@ class CartService
 
             // Транзакция для добавления всех элементов корзины
             DB::transaction(function () use ($cartItemsData, $cart, &$createdItems) {
+                $totalQuantity = 0;
                 foreach ($cartItemsData as $itemData) {
                     // Проверка, что `product_id` существует
                     $product = Product::find($itemData['product_id']);
@@ -56,10 +63,15 @@ class CartService
                     $createdItems[] = CartItem::create([
                         'cart_id' => $cart->id,
                         'product_id' => $itemData['product_id'],
-                        'quantity' => $itemData['quantity'] ?? 1,
-                        'status' => $itemData['status'] ?? true,
                     ]);
+
+                    $totalQuantity += $itemData['quantity'] ?? 1;
                 }
+
+                $cart->update([
+                    'quantity' => $totalQuantity, // Обновляем количество
+                    'status' => true, // Здесь можно задать логику для обновления статуса, например, в зависимости от количества товаров
+                ]);
             });
 
             return $createdItems;

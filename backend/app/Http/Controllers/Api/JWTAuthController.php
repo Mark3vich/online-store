@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Services\JWTAuthService;
+use App\Http\Services\UserService;
 use Illuminate\Validation\ValidationException;
 
 class JWTAuthController extends Controller
 {
     protected $jwtAuthService;
+    protected $userService;
 
-    public function __construct(JWTAuthService $jwtAuthService)
+    public function __construct(JWTAuthService $jwtAuthService, UserService $userService)
     {
         $this->jwtAuthService = $jwtAuthService;
+        $this->userService = $userService;
     }
 
     /**
@@ -25,10 +28,6 @@ class JWTAuthController extends Controller
     public function register(UserRequest $request)
     {
         $registerResponse = $this->jwtAuthService->register($request->validated());
-        $user = $registerResponse['user']; 
-
-        $user->cart()->create();
-
         return response()->json($registerResponse, 201);
     }
 
