@@ -20,15 +20,10 @@ class CartController extends Controller
     public function store(CartRequest $request)
     {
         $validatedData = $request->validated();
-        $token = $request->header('Authorization'); // Извлекаем заголовок Authorization
+        $token = $request->bearerToken();
 
         if (!$token) {
             return response()->json(['error' => 'Authorization token is missing'], 400);
-        }
-
-        // Убираем "Bearer " из токена
-        if (strpos($token, 'Bearer ') === 0) {
-            $token = substr($token, 7);
         }
 
         try {

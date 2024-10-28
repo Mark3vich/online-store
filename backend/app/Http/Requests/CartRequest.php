@@ -22,9 +22,9 @@ class CartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "product_id"=> "required|exists:products,id",
-            "quantity"=> "required|integer",
-            "status"=> "required|boolean",
+            '*.product_id' => 'required|exists:products,id',   // Каждый элемент массива должен иметь product_id, который существует в таблице products
+            '*.quantity' => 'required|integer|min:1',         // Количество должно быть числом и минимум 1
+            '*.status' => 'required|boolean'
         ];
     }
 }
