@@ -27,39 +27,44 @@ class CartService
     public function createCartItemsUser(array $cartData, string $token): CartItem
     {
         try {
+            // Аутентификация пользователя по токену
             JWTAuth::setToken($token);
             $user = JWTAuth::authenticate();
 
             if (!$user) {
-                // Обработка случая, если пользователь не найден
                 throw new Exception('Пользователь с указанным токеном не найден.');
             }
 
-            // Проверка, что `cart_id` существует и принадлежит текущему пользователю
-            $cart = Cart::where('id', $cartData['cart_id'])->where('user_id', $user->id)->first();
+            // Находим корзину, связанную с этим пользователем
+            $cart = Cart::where('user_id', $user->id)->first();
             if (!$cart) {
-                throw new Exception('Указанная корзина не найдена или не принадлежит пользователю.');
+                throw new Exception('Корзина для пользователя не найдена.');
             }
 
-            // Проверка, что `product_id` существует в таблице `products`
+            // Автоматически устанавливаем `cart_id` в данных корзины
+            $cartData['cart_id'] = $cart->id;
+
+            // Проверка существования продукта
             $product = Product::find($cartData['product_id']);
             if (!$product) {
                 throw new Exception('Указанный продукт не найден.');
             }
 
-            // Добавление `cart_id`, `product_id` и `quantity` в таблицу `cart_items`
+            // Создание записи в таблице `cart_items` с `cart_id`
             return DB::transaction(function () use ($cartData) {
                 return CartItem::create([
                     'cart_id' => $cartData['cart_id'],
                     'product_id' => $cartData['product_id'],
-                    'quantity' => $cartData['quantity'] ?? 1, // количество по умолчанию
+                    'quantity' => $cartData['quantity'] ?? 1,
                 ]);
             });
+
         } catch (Exception $e) {
             // Обработка ошибок
             throw new Exception('Ошибка при создании элемента корзины: ' . $e->getMessage());
         }
     }
+
 
     // Удаление всех элементов корзины пользователя
     public function deleteCartItemsUser(int $userId): bool
