@@ -35,6 +35,10 @@ class CartService
                 throw new Exception('Пользователь с указанным токеном не найден.');
             }
 
+            // if (empty($cartItemsData['cartItems'])) {
+            //     throw new Exception('Отсутствуют данные для добавления в корзину.');
+            // }
+
             // Убираем дублирующиеся товары по `product_id`, суммируя `quantity` для дубликатов
             $uniqueCartItems = [];
             foreach ($cartItemsData as $itemData) {
@@ -79,13 +83,18 @@ class CartService
                     }
 
                     // Создание элемента корзины
-                    $cartItem = CartItem::create([
-                        'cart_id' => $cart->id,
-                        'product_id' => $itemData['product_id'],
-                    ]);
+                    $cartItem = CartItem::updateOrCreate(
+                        [
+                            'cart_id' => $cart->id,
+                            'product_id' => $itemData['product_id'],
+                        ],
+                        [
+                            'quantity_items_cart' => $itemData['quantity_items_cart'],
+                        ]
+                    );
 
                     $createdItems[] = $cartItem;
-                    $totalQuantity += $cartItem->quantity;
+                    $totalQuantity += $cartItem->quantity_items_cart;
                 }
 
                 $cart->update([

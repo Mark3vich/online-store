@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade'); // Привязка к корзине
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); // Привязка к товару
+            $table->integer('quantity_items_cart');
             $table->timestamps();
         });
     }
