@@ -41,6 +41,8 @@ class CartService
                 ['quantity' => 0, 'status' => false]
             );
 
+            $cart->cartItems()->delete();
+
             // Находим корзину, связанную с этим пользователем
             $cart = Cart::where('user_id', $user->id)->first();
             if (!$cart) {
