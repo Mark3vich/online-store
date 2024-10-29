@@ -10,7 +10,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CartService
 {
@@ -28,12 +27,8 @@ class CartService
     {
         try {
             // Аутентификация пользователя по токену
-            JWTAuth::setToken($token);
-            $user = JWTAuth::authenticate();
-
-            if (!$user) {
-                throw new Exception('Пользователь с указанным токеном не найден.');
-            }
+            $authService = new AuthService();
+            $user = $authService->authenticate($token);
 
             // Проверка на наличие данных для добавления в корзину
             if (empty($cartItemsData) || !is_array($cartItemsData)) {
