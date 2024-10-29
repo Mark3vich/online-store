@@ -35,6 +35,24 @@ class CartService
                 throw new Exception('Пользователь с указанным токеном не найден.');
             }
 
+            // Убираем дублирующиеся товары по `product_id`, суммируя `quantity` для дубликатов
+            $uniqueCartItems = [];
+            foreach ($cartItemsData as $itemData) {
+                $productId = $itemData['product_id'];
+                $quantity = $itemData['quantity'] ?? 1; // Если `quantity` отсутствует, по умолчанию используем 1
+    
+                // Если продукт уже в массиве, добавляем его количество
+                if (isset($uniqueCartItems[$productId])) {
+                    $uniqueCartItems[$productId]['quantity'] += $quantity;
+                } else {
+                    // Если продукт ещё не добавлен, добавляем его как новый элемент
+                    $uniqueCartItems[$productId] = array_merge($itemData, ['quantity' => $quantity]);
+                }
+            }
+
+            // Преобразуем результат обратно в простой массив
+            $uniqueCartItems = array_values($uniqueCartItems);
+
             // Находим или создаем корзину с новыми полями `quantity` и `status`
             $cart = Cart::firstOrCreate(
                 ['user_id' => $user->id],
@@ -50,11 +68,10 @@ class CartService
             }
 
             $createdItems = []; // Массив для хранения созданных элементов
-
+            $totalQuantity = 0;
             // Транзакция для добавления всех элементов корзины
-            DB::transaction(function () use ($cartItemsData, $cart, &$createdItems) {
-                $totalQuantity = 0;
-                foreach ($cartItemsData as $itemData) {
+            DB::transaction(function () use ($uniqueCartItems, $cart, &$createdItems, &$totalQuantity) {
+                foreach ($uniqueCartItems as $itemData) {
                     // Проверка, что `product_id` существует
                     $product = Product::find($itemData['product_id']);
                     if (!$product) {
@@ -62,12 +79,13 @@ class CartService
                     }
 
                     // Создание элемента корзины
-                    $createdItems[] = CartItem::create([
+                    $cartItem = CartItem::create([
                         'cart_id' => $cart->id,
                         'product_id' => $itemData['product_id'],
                     ]);
 
-                    $totalQuantity += $itemData['quantity'] ?? 1;
+                    $createdItems[] = $cartItem;
+                    $totalQuantity += $cartItem->quantity;
                 }
 
                 $cart->update([
