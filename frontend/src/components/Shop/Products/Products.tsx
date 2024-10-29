@@ -34,7 +34,7 @@ class Products extends React.Component<ProductListProps, ProductListState> {
     private fetchProducts = async (page: number) => {
         try {
             const products: IProductPagination = await getProducts(page);
-            console.log("Products fetched successfully:", products);
+
             this.setState({
                 products: products.products,
                 currentPage: products.currentPage,

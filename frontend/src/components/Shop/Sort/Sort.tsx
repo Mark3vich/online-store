@@ -1,5 +1,4 @@
 import React from 'react';
-import { MenuProps } from 'antd';
 import { Select } from 'antd';
 
 const { Option } = Select;

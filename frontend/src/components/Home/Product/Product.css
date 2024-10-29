@@ -27,3 +27,30 @@
     opacity: 1;
     visibility: visible;
 }
+
+.icon-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.product-container:hover .icon-container {
+    opacity: 1;
+}
+
+.icon-heart, .icon-cart {
+    font-size: 28px;
+    color: #0185ce;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icon-heart:hover, .icon-cart:hover {
+    transform: scale(1.2);
+    color: #006bb3;
+}

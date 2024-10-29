@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, Button, Menu, Modal } from 'antd';
 import { SearchOutlined, SettingOutlined, HeartOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,6 +8,8 @@ import { Link, Location } from 'react-router-dom';
 import withLocation from '../../hooks/withLocation';
 import Login from '../Profile/Login/Login';
 import Register from '../Profile/Register/Register';
+import CartDropdown from './CartDropdown/CartDropdown';
+import IProduct from '../../interfaces/IProduct';
 interface AppState {
     isModalVisible: boolean;
     modalType: 'login' | 'register';
@@ -85,6 +87,35 @@ class Header extends React.Component<ShopProps, AppState> {
 
     render() {
         const { isModalVisible, modalType } = this.state;
+        const cartItems = [
+            {
+                id: 1,
+                title: 'Протеин',
+                description: 'Белковая добавка для спортсменов',
+                image: 'assets/sport-box-2.png',
+                price: '50',
+                discount: 10, // предполагаем, что скидка в процентах
+                category: 'Спортивное питание',
+            },
+            {
+                id: 2,
+                title: 'Креатин',
+                description: 'Улучшает выносливость и силу',
+                image: 'path/to/creatine-image.jpg',
+                price: '30',
+                discount: 0,
+                category: 'Спортивное питание',
+            },
+            {
+                id: 3,
+                title: 'Витамины',
+                description: 'Комплекс витаминов для поддержания здоровья',
+                image: 'path/to/vitamins-image.jpg',
+                price: '20',
+                discount: 5,
+                category: 'Витамины и добавки',
+            }
+        ];
         return (
             <div className="header bg-white pt-4 container">
                 <div className="d-flex justify-content-between align-items-center mb-2">
@@ -110,7 +141,7 @@ class Header extends React.Component<ShopProps, AppState> {
                         <Button icon={<SettingOutlined />} shape="circle" className="me-2" />
                         <Button icon={<HeartOutlined />} shape="circle" className="me-2" />
                         <Button icon={<UserOutlined />} shape="circle" className="me-2" onClick={this.handleUserClick} />
-                        <Button icon={<ShoppingCartOutlined />} shape="circle" />
+                        <CartDropdown cartItems={cartItems} />
                         <Modal
                             title={modalType === 'login' ? 'Login' : 'Register'}
                             visible={isModalVisible}

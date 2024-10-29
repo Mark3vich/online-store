@@ -1,5 +1,8 @@
 import React from 'react';
+import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { observer } from 'mobx-react';
 import './Product.css';
+import IProduct from '../../../interfaces/IProduct';
 
 interface ProductProps {
     image: string;
@@ -10,8 +13,11 @@ interface ProductProps {
     price: string;
     width?: string;
     padding?: string;
+    product: IProduct;
+    addCartProduct: (product: IProduct) => void;
 }
 
+@observer
 class Product extends React.Component<ProductProps> {
     static defaultProps = {
         border: false,
@@ -23,6 +29,11 @@ class Product extends React.Component<ProductProps> {
     constructor(props: ProductProps) {
         super(props);
     }
+
+    handleAddToCart = () => {
+        const { product, addCartProduct } = this.props;
+        addCartProduct(product);
+    };
 
     render() {
         const {
@@ -37,6 +48,10 @@ class Product extends React.Component<ProductProps> {
         } = this.props;
         return (
             <div className={`product-container ${border ? 'border-start border-end' : ''}`} style={{ width: width, padding: padding }}>
+                <div className="icon-container">
+                    <HeartOutlined className="icon-heart" />
+                    <ShoppingCartOutlined className="icon-cart" onClick={this.handleAddToCart}/>
+                </div>
                 <img src={image} alt={alt} />
                 <p style={{
                     color: '#0185ce',
