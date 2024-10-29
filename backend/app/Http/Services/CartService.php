@@ -24,7 +24,7 @@ class CartService
     }
 
     // Создание нового элемента корзины для пользователя
-    public function createCartItemsUser(array $cartItemsData, string $token): array
+    public function updateOrCreateCartItemsForUser(array $cartItemsData, string $token): array
     {
         try {
             // Аутентификация пользователя по токену
@@ -35,16 +35,17 @@ class CartService
                 throw new Exception('Пользователь с указанным токеном не найден.');
             }
 
-            // if (empty($cartItemsData['cartItems'])) {
-            //     throw new Exception('Отсутствуют данные для добавления в корзину.');
-            // }
+            // Проверка на наличие данных для добавления в корзину
+            if (empty($cartItemsData) || !is_array($cartItemsData)) {
+                throw new Exception('Отсутствуют данные для добавления в корзину.');
+            }
 
             // Убираем дублирующиеся товары по `product_id`, суммируя `quantity` для дубликатов
             $uniqueCartItems = [];
             foreach ($cartItemsData as $itemData) {
                 $productId = $itemData['product_id'];
                 $quantity = $itemData['quantity'] ?? 1; // Если `quantity` отсутствует, по умолчанию используем 1
-    
+
                 // Если продукт уже в массиве, добавляем его количество
                 if (isset($uniqueCartItems[$productId])) {
                     $uniqueCartItems[$productId]['quantity'] += $quantity;

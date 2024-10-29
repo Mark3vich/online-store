@@ -27,7 +27,7 @@ class CartController extends Controller
         }
 
         try {
-            $cart = $this->cartService->createCartItemsUser($validatedData, $token);
+            $cart = $this->cartService->updateOrCreateCartItemsForUser($validatedData, $token);
             return response()->json($cart, 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
