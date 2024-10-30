@@ -65,7 +65,7 @@ class Products extends React.Component<ProductListProps, ProductListState> {
                     <>
                         <div className="product-grid mt-3">
                             {products.map((product, index) => (
-                                <Product key={product.id || index} {...product} />
+                                <Product key={product.id || index} product={product} />
                             ))}
                         </div>
 

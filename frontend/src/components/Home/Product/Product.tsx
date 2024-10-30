@@ -3,18 +3,13 @@ import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react';
 import './Product.css';
 import IProduct from '../../../interfaces/IProduct';
+import DataCartStores from '../../../stores/DataCartStores';
 
 interface ProductProps {
-    image: string;
     border?: boolean;
-    alt?: string;
-    title: string;
-    description: string;
-    price: string;
     width?: string;
     padding?: string;
     product: IProduct;
-    addCartProduct: (product: IProduct) => void;
 }
 
 @observer
@@ -31,28 +26,28 @@ class Product extends React.Component<ProductProps> {
     }
 
     handleAddToCart = () => {
-        const { product, addCartProduct } = this.props;
-        addCartProduct(product);
+        const { product } = this.props;
+        DataCartStores.addCartProduct(product);
+
+        console.log("Гг", DataCartStores.getCartProducts());
     };
 
     render() {
         const {
-            image,
-            title,
-            description,
-            price,
             border = Product.defaultProps.border,
             width = Product.defaultProps.width,
             padding = Product.defaultProps.padding,
-            alt = Product.defaultProps.alt,
+            product
         } = this.props;
+
+        const { image, title, description, price } = product;
         return (
             <div className={`product-container ${border ? 'border-start border-end' : ''}`} style={{ width: width, padding: padding }}>
                 <div className="icon-container">
                     <HeartOutlined className="icon-heart" />
                     <ShoppingCartOutlined className="icon-cart" onClick={this.handleAddToCart}/>
                 </div>
-                <img src={image} alt={alt} />
+                <img src={image} alt={product.title} />
                 <p style={{
                     color: '#0185ce',
                     fontFamily: "Oswald",

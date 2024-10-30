@@ -27,6 +27,7 @@ import { GoArrowLeft } from "react-icons/go";
 import { GoArrowRight } from "react-icons/go";
 
 import { MouseEventHandler } from 'react';
+import IProduct from '../../interfaces/IProduct';
 
 interface Brand {
     src: string;
@@ -60,6 +61,44 @@ class Home extends React.Component {
     );
 
     render(): JSX.Element {
+        const products: IProduct[] = [
+            {
+                id: 1,
+                title: "Whey Protein",
+                description: "High-quality protein for muscle building and recovery.",
+                image: "../../../assets/day1.webp",
+                price: "29.99",
+                discount: 10,
+                category: "Supplements"
+            },
+            {
+                id: 2,
+                title: "Running Shoes",
+                description: "Comfortable and durable shoes for long-distance running.",
+                image: "../../../assets/day2.webp",
+                price: "79.99",
+                discount: 15,
+                category: "Footwear"
+            },
+            {
+                id: 3,
+                title: "Yoga Mat",
+                description: "Eco-friendly yoga mat with excellent grip and comfort.",
+                image: "../../../assets/day3.webp",
+                price: "19.99",
+                discount: 5,
+                category: "Accessories"
+            },
+            {
+                id: 4,
+                title: "Smartwatch",
+                description: "Track your workouts, heart rate, and stay connected.",
+                image: "../../../assets/day4.webp",
+                price: "199.99",
+                discount: 20,
+                category: "Electronics"
+            }
+        ];
         return (
             <div>
                 <Carousel arrows infinite={false}>
@@ -106,14 +145,19 @@ class Home extends React.Component {
                         <Carousel arrows infinite={false}
                             prevArrow={<this.PrevArrow />}
                             nextArrow={<this.NextArrow />}>
-                            <div className='d-flex justify-content-center mt-5 mb-5'>
-                                <Product width='425px' padding='60px' border={true}  alt='Whey Protein' image='../../../assets/day1.webp' title='Pulse-Pre-Workout' description="31g of Whey Protein with Amino. Whey Protein Blends combines multiple..." price='44.00' />
-                                <Product width='425px' padding='60px' border={true}  alt="Whey Protein 2" image='../../../assets/day2.webp' title='INSTANT-OATS-POWDER' description="27g of Whey Protein with Amino. Whey Protein Blends combines multiple source of protein to support lean muscle! Great for anytime of the day – especially post-workout." price='54.00' />
-                                <Product width='425px' padding='60px' border={true}  alt="Whey Protein 3" image='../../../assets/day3.webp' title='MASS-TECH-PERFORMANCE' description="Whey Protein Blends combines multiple source of protein to support lean muscle! Great for anytime of the day – especially post-workout. Our nutrition store offers great choice of different nutrition supplements." price='21.00 – $43.00' />
-                            </div>
-                            <div>
-                                <Product width='425px' padding='60px' border={true}  alt='Whey Protein 4' image='../../../assets/day4.webp' title='MUSCLEPHARM CORE FISH OIL' description="Whey Protein Blends combines multiple source of protein to support lean muscle! Great for anytime of the day – especially post-workout." price='15.00 – $43.00' />
-                            </div>
+                            {products.map((product, index) => (
+                                <div
+                                    key={product.id}
+                                    className={`d-flex justify-content-center ${index < 3 ? 'mt-5 mb-5' : ''}`}
+                                >
+                                    <Product
+                                        width="425px"
+                                        padding="60px"
+                                        border={true}
+                                        product={product}
+                                    />
+                                </div>
+                            ))}
                         </Carousel>
                     </div>
                 </div>

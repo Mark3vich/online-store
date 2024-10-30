@@ -13,7 +13,8 @@ class DataCartStores {
     }
 
     @action
-    public addCartProduct(product: IProduct) {
+    public addCartProduct(product: IProduct | undefined) {
+        if (!product) return;
         this.cart.push(product);
     }
 
