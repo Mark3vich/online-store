@@ -22,7 +22,7 @@ import './Header.css';
 interface AppState {
     isModalVisible: boolean;
     modalType: 'login' | 'register';
-    cartItems: IProduct[];
+    cartProducts: IProduct[];
 }
 
 interface ShopProps {
@@ -38,15 +38,15 @@ class Header extends React.Component<ShopProps, AppState> {
         this.state = {
             isModalVisible: false, // Modal visibility for registration form
             modalType: 'login',
-            cartItems: DataCartStores.cart,
+            cartProducts: DataCartStores.cart,
         };
     }
 
     componentDidMount() {
         this.disposer = reaction(
             () => DataCartStores.getCartProducts(), // Observable data to watch
-            (cartItems) => {
-                this.setState({ cartItems }); // Update component state
+            (cartProduct) => {
+                this.setState({ cartProducts: cartProduct }); // Update component state
             }
         );
     }
@@ -114,7 +114,7 @@ class Header extends React.Component<ShopProps, AppState> {
     };
 
     render() {
-        const { isModalVisible, modalType, cartItems } = this.state;
+        const { isModalVisible, modalType, cartProducts: cartItems } = this.state;
 
         return (
             <div className="header bg-white pt-4 container">
@@ -141,7 +141,7 @@ class Header extends React.Component<ShopProps, AppState> {
                         <Button icon={<SettingOutlined />} shape="circle" className="me-2" />
                         <Button icon={<HeartOutlined />} shape="circle" className="me-2" />
                         <Button icon={<UserOutlined />} shape="circle" className="me-2" onClick={this.handleUserClick} />
-                        <CartDropdown cartItems={cartItems} />
+                        <CartDropdown cart={cartItems} />
                         <Modal
                             title={modalType === 'login' ? 'Login' : 'Register'}
                             visible={isModalVisible}

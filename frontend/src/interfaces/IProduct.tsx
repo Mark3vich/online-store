@@ -6,4 +6,5 @@ export default interface IProduct {
     price: string;
     discount: number;
     category: string;
+    quantity_items_cart?: number;
 }

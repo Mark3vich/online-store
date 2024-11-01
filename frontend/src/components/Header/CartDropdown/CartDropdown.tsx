@@ -4,19 +4,19 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import IProduct from '../../../interfaces/IProduct';
 
 interface CartDropdownProps {
-    cartItems: IProduct[];
+    cart: IProduct[];
 }
 
 class CartDropdown extends Component<CartDropdownProps> {
     renderCartMenu = () => {
-        const { cartItems } = this.props;
+        const { cart } = this.props;
 
         return (
             <Menu>
-                {cartItems.length > 0 ? (
-                    cartItems.map((item, index) => (
+                {cart.length > 0 ? (
+                    cart.map((item, index) => (
                         <Menu.Item key={index}>
-                            {item.title} - ${item.price}
+                            {item.title} - ${item.price} - Колличество: {item.quantity_items_cart}
                         </Menu.Item>
                     ))
                 ) : (
@@ -27,11 +27,11 @@ class CartDropdown extends Component<CartDropdownProps> {
     };
 
     render() {
-        const { cartItems } = this.props;
-
+        const { cart } = this.props;
+        const totalQuantity = cart.reduce((total, item) => total + (item.quantity_items_cart || 0), 0);
         return (
             <Dropdown overlay={this.renderCartMenu()} trigger={['click']}>
-                <Badge count={cartItems.length} offset={[10, 0]} style={{ backgroundColor: '#007bff', borderColor: '#007bff', color: '#fff' }}>
+                <Badge count={totalQuantity} offset={[10, 0]} style={{ backgroundColor: '#007bff', borderColor: '#007bff', color: '#fff' }}>
                     <Button icon={<ShoppingCartOutlined />} shape="circle" />
                 </Badge>
             </Dropdown>
