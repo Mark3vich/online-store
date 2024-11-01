@@ -1,31 +1,59 @@
 import React, { useState } from 'react';
-import { Input, Button, Menu, Modal } from 'antd';
-import { SearchOutlined, SettingOutlined, HeartOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Logo from '../../assets/logo.webp';
-import './Header.css';
+
+import { IReactionDisposer, reaction } from 'mobx';
+import { observer } from 'mobx-react';
+import { Button, Input, Menu, Modal } from 'antd';
 import { Link, Location } from 'react-router-dom';
-import withLocation from '../../hooks/withLocation';
+
+import { HeartOutlined, SearchOutlined, SettingOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+
+import Logo from '../../assets/logo.webp';
 import Login from '../Profile/Login/Login';
+import IProduct from '../../interfaces/IProduct';
+import withLocation from '../../hooks/withLocation';
 import Register from '../Profile/Register/Register';
 import CartDropdown from './CartDropdown/CartDropdown';
-import IProduct from '../../interfaces/IProduct';
+import DataCartStores from '../../stores/DataCartStores';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import './Header.css';
+
 interface AppState {
     isModalVisible: boolean;
     modalType: 'login' | 'register';
+    cartItems: IProduct[];
 }
 
 interface ShopProps {
     location: Location; // Указываем что location обязателен
 }
 
+@observer
 class Header extends React.Component<ShopProps, AppState> {
+    private disposer?: IReactionDisposer;
+
     constructor(props: ShopProps) {
         super(props);
         this.state = {
             isModalVisible: false, // Modal visibility for registration form
             modalType: 'login',
+            cartItems: DataCartStores.cart,
         };
+    }
+
+    componentDidMount() {
+        this.disposer = reaction(
+            () => DataCartStores.getCartProducts(), // Observable data to watch
+            (cartItems) => {
+                this.setState({ cartItems }); // Update component state
+            }
+        );
+    }
+
+    componentWillUnmount() {
+        // Clean up the reaction when the component is unmounted
+        if (this.disposer) this.disposer();
     }
 
     // Check localStorage for token and show registration form if no token exists
@@ -53,7 +81,7 @@ class Header extends React.Component<ShopProps, AppState> {
     protected handleModalClose = () => {
         this.setState({ isModalVisible: false });
     };
-    
+
     private getSelectedKey = () => {
         const { location } = this.props;// Получаем текущий маршрут
         switch (location.pathname) {
@@ -86,36 +114,8 @@ class Header extends React.Component<ShopProps, AppState> {
     };
 
     render() {
-        const { isModalVisible, modalType } = this.state;
-        const cartItems = [
-            {
-                id: 1,
-                title: 'Протеин',
-                description: 'Белковая добавка для спортсменов',
-                image: 'assets/sport-box-2.png',
-                price: '50',
-                discount: 10, // предполагаем, что скидка в процентах
-                category: 'Спортивное питание',
-            },
-            {
-                id: 2,
-                title: 'Креатин',
-                description: 'Улучшает выносливость и силу',
-                image: 'path/to/creatine-image.jpg',
-                price: '30',
-                discount: 0,
-                category: 'Спортивное питание',
-            },
-            {
-                id: 3,
-                title: 'Витамины',
-                description: 'Комплекс витаминов для поддержания здоровья',
-                image: 'path/to/vitamins-image.jpg',
-                price: '20',
-                discount: 5,
-                category: 'Витамины и добавки',
-            }
-        ];
+        const { isModalVisible, modalType, cartItems } = this.state;
+
         return (
             <div className="header bg-white pt-4 container">
                 <div className="d-flex justify-content-between align-items-center mb-2">

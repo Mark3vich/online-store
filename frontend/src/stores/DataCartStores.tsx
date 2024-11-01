@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable, action } from "mobx";
+import { makeAutoObservable, observable, action, computed } from "mobx";
 import ICartItem from "../interfaces/ICartItem";
 import IProduct from "../interfaces/IProduct";
 
@@ -18,9 +18,9 @@ class DataCartStores {
         this.cart.push(product);
     }
 
-    @action
+    @computed
     public getCartProducts(): IProduct[] {
-        return this.cart;
+        return this.cart.slice();
     }
 
     @action
