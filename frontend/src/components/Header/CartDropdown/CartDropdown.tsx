@@ -31,7 +31,7 @@ class CartDropdown extends Component<CartDropdownProps> {
 
         return (
             <Dropdown overlay={this.renderCartMenu()} trigger={['click']}>
-                <Badge count={cartItems.length} offset={[10, 0]}>
+                <Badge count={cartItems.length} offset={[10, 0]} style={{ backgroundColor: '#007bff', borderColor: '#007bff', color: '#fff' }}>
                     <Button icon={<ShoppingCartOutlined />} shape="circle" />
                 </Badge>
             </Dropdown>
