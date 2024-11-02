@@ -1,11 +1,8 @@
 import { makeAutoObservable, observable, action, computed } from "mobx";
-import ICartItem from "../interfaces/ICartItem";
 import IProduct from "../interfaces/IProduct";
 
 class DataCartStores {
     @observable cart: IProduct[] = [];
-    @observable totalPrice: number = 0;
-    @observable totalQuantity: number = 0;
 
     constructor() {
         makeAutoObservable(this);
@@ -15,99 +12,22 @@ class DataCartStores {
     public addCartProduct(product: IProduct | undefined) {
         if (!product) return;
 
-        // Check if the product is already in the cart
         const cartItem = this.cart.find(item => item.id === product.id);
 
         if (cartItem) {
-            // If the product exists, increase its quantity
+            // Увеличиваем количество товара и создаем новый массив для this.cart
             cartItem.quantity_items_cart = (cartItem.quantity_items_cart || 1) + 1;
+            this.cart = [...this.cart];
         } else {
-            // Add a new product with quantity 1 if it doesn't exist
-            this.cart.push({ ...product, quantity_items_cart: 1 });
+            // Добавляем новый товар в корзину
+            this.cart = [...this.cart, { ...product, quantity_items_cart: 1 }];
         }
-
-        // Update the total quantity and total price
-        this.updateTotals();
     }
 
-    // Update total quantity and price in the cart
-    private updateTotals() {
-        this.totalQuantity = this.cart.reduce((sum, item) => sum + (item.quantity_items_cart || 1), 0);
-        this.totalPrice = this.cart.reduce(
-            (sum, item) => sum + parseFloat(item.price) * (item.quantity_items_cart || 1),
-            0
-        );
-    }
 
     @computed
     public getCartProducts(): IProduct[] {
         return this.cart.slice();
-    }
-
-    @action
-    public setTotalPrice(totalPrice: number) {
-        this.totalPrice = totalPrice;
-    }
-
-    @action
-    public setTotalQuantity(totalQuantity: number) {
-        this.totalQuantity = totalQuantity;
-    }
-
-    // @action
-    // public clearCart() {
-    //     this.cartItems = [];
-    //     this.totalPrice = 0;
-    //     this.totalQuantity = 0;
-    // }
-
-    // @action
-    // public addCartItem(cartItem: ICartItem) {
-    //     this.cartItems.push(cartItem);
-    // }
-
-    // @action
-    // public removeCartItem(productId: number) {
-    //     this.cartItems = this.cartItems.filter(item => item.product_id !== productId);
-    // }
-
-    // @action
-    // public updateCartItemQuantity(productId: number, quantity: number) {
-    //     const cartItem = this.cartItems.find(item => item.product_id === productId);
-    //     if (cartItem) {
-    //         cartItem.quantity_items_cart = quantity;
-    //     }
-    // }
-
-    // @action
-    // public calculateTotalPrice() {
-
-    // }
-
-    // @action
-    // public calculateTotalQuantity() {
-    //     this.totalQuantity = this.cartItems.reduce((total, item) => total + item.quantity_items_cart, 0);
-    // }
-
-    // @action
-    // public calculateTotalPriceAndQuantity() {
-    //     this.calculateTotalPrice();
-    //     this.calculateTotalQuantity();
-    // }
-
-    // @action
-    // public getCartItems(): ICartItem[] {
-    //     return this.cartItems;
-    // }
-
-    @action
-    public getTotalPrice(): number {
-        return this.totalPrice;
-    }
-
-    @action
-    public getTotalQuantity(): number {
-        return this.totalQuantity;
     }
 }
 

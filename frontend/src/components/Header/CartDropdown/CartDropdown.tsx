@@ -10,6 +10,10 @@ interface CartDropdownProps {
 class CartDropdown extends Component<CartDropdownProps> {
     renderCartMenu = () => {
         const { cart } = this.props;
+        const totalPrice = cart.reduce(
+            (sum, item) => sum + parseFloat(item.price) * (item.quantity_items_cart || 1),
+            0
+        );
 
         return (
             <Menu>
@@ -22,6 +26,11 @@ class CartDropdown extends Component<CartDropdownProps> {
                 ) : (
                     <Menu.Item>Корзина пуста</Menu.Item>
                 )}
+                {cart.length > 0 ? (
+                    <Menu.Item disabled style={{ fontWeight: 'bold' }}>
+                        Общая стоимость: ${totalPrice.toFixed(2)}
+                    </Menu.Item>
+                ): null}
             </Menu>
         );
     };
@@ -29,6 +38,7 @@ class CartDropdown extends Component<CartDropdownProps> {
     render() {
         const { cart } = this.props;
         const totalQuantity = cart.reduce((total, item) => total + (item.quantity_items_cart || 0), 0);
+
         return (
             <Dropdown overlay={this.renderCartMenu()} trigger={['click']}>
                 <Badge count={totalQuantity} offset={[10, 0]} style={{ backgroundColor: '#007bff', borderColor: '#007bff', color: '#fff' }}>

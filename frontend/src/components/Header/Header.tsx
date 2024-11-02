@@ -38,7 +38,7 @@ class Header extends React.Component<ShopProps, AppState> {
         this.state = {
             isModalVisible: false, // Modal visibility for registration form
             modalType: 'login',
-            cartProducts: DataCartStores.cart,
+            cartProducts: DataCartStores.getCartProducts(),
         };
     }
 
