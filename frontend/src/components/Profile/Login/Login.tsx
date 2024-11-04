@@ -15,7 +15,6 @@ class Login extends React.Component<LoginProps> {
         try {
             // Вызов сервиса loginUser
             const response = await loginUser(values);
-            console.log('Login Success:', response);
 
             // Показ успешного сообщения
             message.success('Login successful!');

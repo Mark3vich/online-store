@@ -61,10 +61,7 @@ class Header extends React.Component<ShopProps, AppState> {
         const token = localStorage.getItem('token');
         if (!token) {
             this.setState({ isModalVisible: true, modalType: 'login' });
-        } else {
-            // Handle the case where token exists, e.g., redirect to the user's profile
-            console.log('Token found:', token);
-        }
+        } 
     };
 
     // Switch to the login form in the modal

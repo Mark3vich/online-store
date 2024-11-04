@@ -26,7 +26,6 @@ class Register extends React.Component<RegisterProps, RegisterState> {
         this.setState({ loading: true });
         try {
             const response = await registerUser(values);
-            console.log('User registered successfully:', response);
             // Дополнительно: можно сделать редирект на страницу логина или показать уведомление
         } catch (error) {
             console.error('Registration error:', error);
