@@ -1,6 +1,6 @@
 import { makeAutoObservable, observable, action, computed } from "mobx";
 import IProduct from "../interfaces/IProduct";
-import { addCartItems } from "../services/CartService";
+import { addCartItems, getCartItems } from "../services/CartService";
 import ICartItem from "../interfaces/ICartItem";
 
 class DataCartStores {
@@ -48,6 +48,27 @@ class DataCartStores {
             this.cart = this.cart.filter(item => item.id !== id);
         }
         addCartItems(this.convertProductToCart(this.cart), localStorage.getItem("token") || "");
+    }
+
+    @action
+    public async fetchCartProducts() {
+        const token = localStorage.getItem("token") || "";
+        try {
+            const cartItems = await getCartItems(token);
+            this.cart = cartItems.map(item => ({
+                id: item.id,
+                title: item.title,
+                description: item.description,
+                image: item.image,
+                price: item.price,
+                discount: item.discount,
+                category: item.category,
+                quantity_items_cart: item.quantity_items_cart
+            })); 
+        } catch (error) {
+            console.error("Error fetching cart products:", error);
+        }
+        return this.cart.slice();
     }
 
     @computed

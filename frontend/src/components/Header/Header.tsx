@@ -43,6 +43,7 @@ class Header extends React.Component<ShopProps, AppState> {
     }
 
     componentDidMount() {
+        DataCartStores.fetchCartProducts();
         this.disposer = reaction(
             () => DataCartStores.getCartProducts(), // Observable data to watch
             (cartProduct) => {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CartRequest;
 use App\Http\Services\CartService;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
@@ -37,10 +38,19 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(Request $request, CartService $cartService)
     {
-        $cart = $this->cartService->getCartItemsUser($id);
-        return response()->json($cart);
+        $token = $request->bearerToken();
+
+        if (!$token) {
+            return response()->json(['error' => 'Authorization token is missing'], 400);
+        }
+        try {
+            $cart = $cartService->getCartItemsUser($token);
+            return response()->json($cart);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     /**

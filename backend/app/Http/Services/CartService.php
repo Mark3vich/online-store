@@ -8,18 +8,32 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class CartService
 {
     // Получение всех элементов корзины конкретного пользователя
-    public function getCartItemsUser(int $userId): Collection
+    public function getCartItemsUser(string $token): Collection
     {
-        if ($userId !== Auth::id()) {
-            throw new AuthorizationException("You are not authorized to view another user's cart.");
+        try {
+            $authService = new AuthService();
+            $user = $authService->authenticate($token);
+            // Ensure the user has an associated cart
+            $cart = $user->cart;
+
+            if (!$cart) {
+                // If the user has no cart, return an empty collection
+                return collect();
+            }
+
+            // Retrieve and return the cart items
+            return $cart->cartItems;
+        } catch (AuthorizationException $e) {
+            throw new AuthorizationException('Необходима авторизация.');
+        } catch (Exception $e) {
+            // Handle any other exceptions
+            throw new Exception('Ошибка при получении товаров корзины: ' . $e->getMessage());
         }
-        return Cart::where('user_id', $userId)->get();
     }
 
     // Создание нового элемента корзины для пользователя
