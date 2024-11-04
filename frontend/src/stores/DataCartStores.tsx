@@ -2,7 +2,7 @@ import { makeAutoObservable, observable, action, computed } from "mobx";
 import IProduct from "../interfaces/IProduct";
 
 class DataCartStores {
-    @observable cart: IProduct[] = [];
+    @observable public cart: IProduct[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -24,6 +24,20 @@ class DataCartStores {
         }
     }
 
+    @action
+    public removeCartProduct(id: number) {
+        const cartItem = this.cart.find(item => item.id === id);
+        if (!cartItem) return; // Если товара нет, выходим
+
+        // Уменьшаем количество товара
+        if ((cartItem.quantity_items_cart || 1) > 1) {
+            cartItem.quantity_items_cart = (cartItem.quantity_items_cart || 1) - 1;
+            this.cart = [...this.cart];
+        } else {
+            // Если количество равно 1, удаляем товар из корзины
+            this.cart = this.cart.filter(item => item.id !== id);
+        }
+    }
 
     @computed
     public getCartProducts(): IProduct[] {

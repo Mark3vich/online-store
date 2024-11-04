@@ -28,8 +28,6 @@ class Product extends React.Component<ProductProps> {
     handleAddToCart = () => {
         const { product } = this.props;
         DataCartStores.addCartProduct(product);
-
-        console.log("Гг", DataCartStores.getCartProducts());
     };
 
     render() {

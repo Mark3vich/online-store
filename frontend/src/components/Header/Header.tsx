@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { IReactionDisposer, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import { Button, Input, Menu, Modal } from 'antd';
 import { Link, Location } from 'react-router-dom';
 
-import { HeartOutlined, SearchOutlined, SettingOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import { HeartOutlined, SearchOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 
 import Logo from '../../assets/logo.webp';
 import Login from '../Profile/Login/Login';
@@ -38,7 +38,7 @@ class Header extends React.Component<ShopProps, AppState> {
         this.state = {
             isModalVisible: false, // Modal visibility for registration form
             modalType: 'login',
-            cartProducts: DataCartStores.getCartProducts(),
+            cartProducts: [],
         };
     }
 
@@ -114,7 +114,7 @@ class Header extends React.Component<ShopProps, AppState> {
     };
 
     render() {
-        const { isModalVisible, modalType, cartProducts: cartItems } = this.state;
+        const { isModalVisible, modalType, cartProducts } = this.state;
 
         return (
             <div className="header bg-white pt-4 container">
@@ -141,7 +141,7 @@ class Header extends React.Component<ShopProps, AppState> {
                         <Button icon={<SettingOutlined />} shape="circle" className="me-2" />
                         <Button icon={<HeartOutlined />} shape="circle" className="me-2" />
                         <Button icon={<UserOutlined />} shape="circle" className="me-2" onClick={this.handleUserClick} />
-                        <CartDropdown cart={cartItems} />
+                        <CartDropdown cart={cartProducts} />
                         <Modal
                             title={modalType === 'login' ? 'Login' : 'Register'}
                             visible={isModalVisible}
