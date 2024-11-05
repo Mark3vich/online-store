@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Filters\ProductFilter;
 use App\Models\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
@@ -15,30 +16,14 @@ class ProductService
      */
     public function getAllProducts(Request $request): LengthAwarePaginator
     {
-        $query = Product::with('category:id,title')
-            ->select('id', 'title', 'description', 'image', 'price', 'discount', 'category_id');
+        $filters = new ProductFilter($request->all());
 
-        // Filter by category if category_id is provided
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
+        $query = Product::filter($filters)
+            ->with('category:id,title')
+            ->select('id', 'title', 'description', 'image', 'price', 'discount', 'category_id')
+            ->paginate(9);
 
-        // Filter by minimum price if min_price is provided
-        if ($request->filled('min_price') && is_numeric($request->min_price)) {
-            $query->where('price', '>=', (float) $request->min_price);
-        }
-
-        // Filter by maximum price if max_price or max is provided
-        $maxPrice = $request->input('max_price', $request->input('max'));
-        if (!is_null($maxPrice) && is_numeric($maxPrice)) {
-            $query->where('price', '<=', (float) $maxPrice);
-        }
-
-        // Paginate results
-        $products = $query->paginate(9);
-
-        // Transform the result to include only required fields
-        $products->getCollection()->transform(function ($product) {
+        $query->getCollection()->transform(function ($product) {
             return [
                 'id' => $product->id,
                 'title' => $product->title,
@@ -50,7 +35,7 @@ class ProductService
             ];
         });
 
-        return $products;
+        return $query;
     }
 
 

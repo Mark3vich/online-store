@@ -9,29 +9,49 @@ class ProductFilter extends AbstractFilter
     public const CATEGORY = 'category';
     public const SORT_BY = 'sort_by';
     public const ORDER = 'order';
+    public const MIN_PRICE = 'min_price';
+    public const MAX_PRICE = 'max_price';
 
-    // Получаем коллбэки для фильтров
+    // Define all callbacks for the filters
     protected function getCallbacks(): array
     {
         return [
-            self::CATEGORY  => [$this, 'filterByCategory'],
+            self::CATEGORY => [$this, 'filterByCategory'],
             self::SORT_BY => [$this, 'applySorting'],
+            self::MIN_PRICE => [$this, 'filterByMinPrice'],
+            self::MAX_PRICE => [$this, 'filterByMaxPrice'],
         ];
     }
 
-    // Метод фильтрации по category_id
+    // Filter by category
     public function filterByCategory(Builder $builder, $value)
     {
-        // Фильтруем продукты по переданному значению category_id
         if ($value) {
             $builder->where('category_id', $value);
         }
     }
 
-    // Метод для сортировки
+    // Filter by minimum price
+    public function filterByMinPrice(Builder $builder, $value)
+    {
+        if (is_numeric($value)) {
+            $builder->where('price', '>=', (float) $value);
+        }
+    }
+
+    // Filter by maximum price
+    public function filterByMaxPrice(Builder $builder, $value)
+    {
+        if (is_numeric($value)) {
+            $builder->where('price', '<=', (float) $value);
+        }
+    }
+
+    // Apply sorting based on provided field and order
     public function applySorting(Builder $builder, $value)
     {
-        $order = request('order', 'asc'); // По умолчанию сортировка по возрастанию
+        $order = request('order', 'asc'); // Default sorting order is ascending
         $builder->orderBy($value, $order);
     }
 }
+
