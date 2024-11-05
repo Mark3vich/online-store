@@ -11,6 +11,7 @@ class ProductFilter extends AbstractFilter
     public const ORDER = 'order';
     public const MIN_PRICE = 'min_price';
     public const MAX_PRICE = 'max_price';
+    public const TITLE = 'title';
 
     // Define all callbacks for the filters
     protected function getCallbacks(): array
@@ -20,6 +21,7 @@ class ProductFilter extends AbstractFilter
             self::SORT_BY => [$this, 'applySorting'],
             self::MIN_PRICE => [$this, 'filterByMinPrice'],
             self::MAX_PRICE => [$this, 'filterByMaxPrice'],
+            self::TITLE => [$this, 'filterByTitle'],
         ];
     }
 
@@ -52,6 +54,14 @@ class ProductFilter extends AbstractFilter
     {
         $order = request('order', 'asc'); // Default sorting order is ascending
         $builder->orderBy($value, $order);
+    }
+
+    // Filter by title for soft/partial search
+    public function filterByTitle(Builder $builder, $value)
+    {
+        if (!empty($value)) {
+            $builder->where('title', 'LIKE', '%' . $value . '%');
+        }
     }
 }
 
