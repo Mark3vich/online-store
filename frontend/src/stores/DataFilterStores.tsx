@@ -1,17 +1,26 @@
 import { makeObservable, observable, action } from 'mobx';
 
 class DataFilterStores {
-    filter = '';
-    min_price = '';
-    max_price = '';
+    public filter = '';
+    public min_price = '';
+    public max_price = '';
+    public category = '';
+    public sort_by = 'price';
+    public order = 'asc';
 
     constructor() {
         makeObservable(this, {
             filter: observable,
             min_price: observable,
             max_price: observable,
+            category: observable,
+            sort_by: observable,
+            order: observable,
             setFilter: action,
             setPriceFilter: action,
+            setCategory: action,
+            setSortBy: action,
+            setOrder: action,
         });
     }
 
@@ -34,6 +43,36 @@ class DataFilterStores {
     // Gets the current price filter as a tuple
     getPriceFilter(): [string, string] {
         return [this.min_price, this.max_price];
+    }
+
+    // Sets the category filter value
+    setCategory(value: string) {
+        this.category = value;
+    }
+
+    // Returns the current category filter value
+    getCategory() {
+        return this.category;
+    }
+
+    // Sets the sort by filter value
+    setSortBy(value: string) {
+        this.sort_by = value;
+    }
+
+    // Returns the current sort by filter value
+    getSortBy() {
+        return this.sort_by;
+    }
+
+    // Sets the order filter value
+    setOrder(value: string) {
+        this.order = value;
+    }
+
+    // Returns the current order filter value
+    getOrder() {
+        return this.order;
     }
 }
 

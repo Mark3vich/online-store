@@ -35,6 +35,9 @@ class Products extends React.Component<{}, ProductListState> {
             () => ({
                 filter: DataFilterStores.filter,
                 priceRange: DataFilterStores.getPriceFilter(),
+                category: DataFilterStores.category,
+                sort_by: DataFilterStores.sort_by,
+                order: DataFilterStores.order,
             }),
             () => {
                 this.fetchProducts(1); // Reset to page 1 on filter or price change
@@ -54,11 +57,12 @@ class Products extends React.Component<{}, ProductListState> {
     private fetchProducts = async (page: number) => {
         const filter = DataFilterStores.getFilter();
         const [min_price, max_price] = DataFilterStores.getPriceFilter();
-
+        const category = DataFilterStores.getCategory();
+        
         this.setState({ loading: true });
 
         try {
-            const products: IProductPagination = await getProducts(page, '', filter, min_price.toString(), max_price.toString(), 'title', 'asc');
+            const products: IProductPagination = await getProducts(page, category, filter, min_price.toString(), max_price.toString(), 'title', 'asc');
 
             this.setState({
                 products: products.products,
