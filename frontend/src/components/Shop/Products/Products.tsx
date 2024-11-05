@@ -1,4 +1,3 @@
-// components/Products/Products.js
 import React from 'react';
 import { observer } from 'mobx-react';
 import { reaction } from 'mobx';
@@ -31,11 +30,14 @@ class Products extends React.Component<{}, ProductListState> {
             total: 0,
         };
 
-        // Create a reaction to listen for changes in the filter value
+        // Create a reaction to listen for changes in the filter and price range
         this.disposer = reaction(
-            () => DataFilterStores.filter, // Observe changes in the filter
+            () => ({
+                filter: DataFilterStores.filter,
+                priceRange: DataFilterStores.getPriceFilter(),
+            }),
             () => {
-                this.fetchProducts(1); // Reset to page 1 on search
+                this.fetchProducts(1); // Reset to page 1 on filter or price change
             }
         );
     }
@@ -51,11 +53,12 @@ class Products extends React.Component<{}, ProductListState> {
 
     private fetchProducts = async (page: number) => {
         const filter = DataFilterStores.getFilter();
+        const [min_price, max_price] = DataFilterStores.getPriceFilter();
 
         this.setState({ loading: true });
 
         try {
-            const products: IProductPagination = await getProducts(page, '', filter, '', '', 'title', 'asc');
+            const products: IProductPagination = await getProducts(page, '', filter, min_price.toString(), max_price.toString(), 'title', 'asc');
 
             this.setState({
                 products: products.products,
