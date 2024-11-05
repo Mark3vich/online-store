@@ -1,7 +1,8 @@
-import { makeAutoObservable, observable, action, computed } from "mobx";
+import { action, computed, makeAutoObservable, observable } from "mobx";
+
 import IProduct from "../interfaces/IProduct";
-import { addCartItems, getCartItems } from "../services/CartService";
 import ICartItem from "../interfaces/ICartItem";
+import { addCartItems, getCartItems } from "../services/CartService";
 
 class DataCartStores {
     @observable public cart: IProduct[] = [];

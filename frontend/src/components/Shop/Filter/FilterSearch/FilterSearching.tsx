@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
+import DataFilterStores from '../../../../stores/DataFilterStores';
 
 const { Search } = Input;
 
@@ -11,7 +12,7 @@ class FilterSearching extends React.Component {
                     placeholder="Search..."
                     enterButton="SEARCH"
                     size="large"
-                    onSearch={(value) => console.log(value)}
+                    onSearch={(value) => DataFilterStores.setFilter(value)}
                     style={{ width: '100%' }}
                 />
             </div>
