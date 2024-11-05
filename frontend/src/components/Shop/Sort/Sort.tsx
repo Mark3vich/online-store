@@ -1,11 +1,12 @@
 import React from 'react';
 import { Select } from 'antd';
+import DataFilterStores from '../../../stores/DataFilterStores';
 
 const { Option } = Select;
 
 class Sort extends React.Component {
     handleChange = (value: string) => {
-        console.log(`selected ${value}`);
+        DataFilterStores.setOrder(value);
     };
     render(): React.ReactNode {
         return (
@@ -15,12 +16,8 @@ class Sort extends React.Component {
                     style={{ width: 290 }}
                     onChange={this.handleChange}
                 >
-                    <Option value="default">Default sorting</Option>
-                    <Option value="popularity">Sort by popularity</Option>
-                    <Option value="averageRating">Sort by average rating</Option>
-                    <Option value="latest">Sort by latest</Option>
-                    <Option value="lowToHigh">Sort by price: low to high</Option>
-                    <Option value="highToLow">Sort by price: high to low</Option>
+                    <Option value="asc">Sort by price: low to high</Option>
+                    <Option value="desc">Sort by price: high to low</Option>
                 </Select>
             </div>
         );

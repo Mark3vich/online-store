@@ -58,11 +58,13 @@ class Products extends React.Component<{}, ProductListState> {
         const filter = DataFilterStores.getFilter();
         const [min_price, max_price] = DataFilterStores.getPriceFilter();
         const category = DataFilterStores.getCategory();
+        const sort_by = DataFilterStores.getSortBy();
+        const order = DataFilterStores.getOrder();
         
         this.setState({ loading: true });
 
         try {
-            const products: IProductPagination = await getProducts(page, category, filter, min_price.toString(), max_price.toString(), 'title', 'asc');
+            const products: IProductPagination = await getProducts(page, category, filter, min_price.toString(), max_price.toString(), sort_by, order);
 
             this.setState({
                 products: products.products,
