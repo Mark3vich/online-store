@@ -31,7 +31,13 @@ export const getCartItems = async (token: string): Promise<IProduct[]> => {
                 Authorization: `Bearer ${token}`
             }
         });
-        return response.data;
+        // Map over the cart items and extract only the product details
+        const products = response.data.map((cartItem: { product: IProduct; quantity_items_cart: number }) => ({
+            ...cartItem.product,
+            quantity_items_cart: cartItem.quantity_items_cart
+        }));
+
+        return products;
     } catch (error) {
         console.error("Error fetching cart items:", error);
         throw error;

@@ -26,8 +26,10 @@ class CartService
                 return collect();
             }
 
-            // Retrieve and return the cart items
-            return $cart->cartItems;
+            // Retrieve cart items along with their associated products
+            $cartItemsWithProducts = $cart->cartItems()->with('product')->get();
+
+            return $cartItemsWithProducts;
         } catch (AuthorizationException $e) {
             throw new AuthorizationException('Необходима авторизация.');
         } catch (Exception $e) {
