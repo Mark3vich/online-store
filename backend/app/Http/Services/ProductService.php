@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Models\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 
 class ProductService
 {
@@ -12,12 +13,31 @@ class ProductService
      *
      * @return LengthAwarePaginator
      */
-    public function getAllProducts(): LengthAwarePaginator
+    public function getAllProducts(Request $request): LengthAwarePaginator
     {
-        $products = Product::with('category:id,title')
-            ->select('id', 'title', 'description', 'image', 'price', 'discount', 'category_id')
-            ->paginate(9);
+        $query = Product::with('category:id,title')
+            ->select('id', 'title', 'description', 'image', 'price', 'discount', 'category_id');
 
+        // Filter by category if category_id is provided
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Filter by minimum price if min_price is provided
+        if ($request->filled('min_price') && is_numeric($request->min_price)) {
+            $query->where('price', '>=', (float) $request->min_price);
+        }
+
+        // Filter by maximum price if max_price or max is provided
+        $maxPrice = $request->input('max_price', $request->input('max'));
+        if (!is_null($maxPrice) && is_numeric($maxPrice)) {
+            $query->where('price', '<=', (float) $maxPrice);
+        }
+
+        // Paginate results
+        $products = $query->paginate(9);
+
+        // Transform the result to include only required fields
         $products->getCollection()->transform(function ($product) {
             return [
                 'id' => $product->id,
@@ -32,6 +52,7 @@ class ProductService
 
         return $products;
     }
+
 
     /**
      * Get user by id
@@ -54,42 +75,5 @@ class ProductService
             'discount' => $product->discount,
             'category' => $product->category->title ?? null,
         ];
-    }
-
-    /** 
-     * Create new user
-     *
-     * @param array $data
-     * @return Product
-     */
-    public function createProduct(array $data): Product
-    {
-        return Product::create($data);
-    }
-
-    /**
-     * Update user
-     *
-     * @param array $data
-     * @param string $id    
-     * @return Product
-     */
-    public function updateProduct(array $data, string $id): Product
-    {
-        $product = $this->getProductById($id);
-        $product->update($data);
-        return $product;
-    }
-
-    /**
-     * Delete user
-     *
-     * @param string $id
-     * @return bool true on success
-     */
-    public function deleteProduct(string $id): bool
-    {
-        $product = $this->getProductById($id);
-        return $product->delete();
     }
 }

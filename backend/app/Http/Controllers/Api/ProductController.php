@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Services\ProductService;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -17,22 +18,10 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productService->getAllProducts();
+        $products = $this->productService->getAllProducts($request);
         return response()->json($products, 200);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(ProductRequest $request)
-    {
-        $validatedData = $request->validated();
-
-        $product = $this->productService->createProduct($validatedData);
-
-        return response()->json($product, 201);
     }
 
     /**
