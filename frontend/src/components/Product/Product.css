@@ -1,0 +1,51 @@
+.product-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+
+.title-text {
+    font-family: "Oswald", Sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 29px;
+    letter-spacing: 0px;
+    color: #171a25;
+}
+
+.text-description {
+    font-family: "Roboto Condensed", Sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: none;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 19px;
+    letter-spacing: 0px;
+    color: #757b91;
+    text-align: left;
+}
+
+.text-price {
+    color: #0185ce;
+    font-family: "Oswald", Sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 30px;
+}

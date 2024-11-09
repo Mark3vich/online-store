@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import './Product.css';
 import IProduct from '../../../interfaces/IProduct';
 import DataCartStores from '../../../stores/DataCartStores';
+import { Link } from 'react-router-dom';
 
 interface ProductProps {
     border?: boolean;
@@ -60,7 +61,7 @@ class Product extends React.Component<ProductProps> {
                 <p className='text-title2'>${price}</p>
                 <div className="product-show">
                     <p className='text-title2' style={{ color: '#fff', fontSize: '12px' }}>{description}</p>
-                    <button className='button-shop' style={{ border: 'none', marginTop: '0px' }}>Add to cart</button>
+                    <Link to={`/product/${product.id}`} className='button-shop' style={{ border: 'none', marginTop: '0px' }}>View the product</Link>
                 </div>
             </div>
         );

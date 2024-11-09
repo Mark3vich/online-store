@@ -1,11 +1,14 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+
 import { reaction } from 'mobx';
-import { getProducts } from '../../../services/ProductService';
-import DataFilterStores from '../../../stores/DataFilterStores';
-import IProduct from '../../../interfaces/IProduct';
+import { observer } from 'mobx-react';
+
 import Pagination from 'antd/lib/pagination';
+
 import Product from '../../Home/Product/Product';
+import IProduct from '../../../interfaces/IProduct';
+import { getProducts } from '../../../services/ProductsService';
+import DataFilterStores from '../../../stores/DataFilterStores';
 import IProductPagination from '../../../interfaces/IProductPagination';
 
 interface ProductListState {
@@ -50,7 +53,6 @@ class Products extends React.Component<{}, ProductListState> {
     }
 
     componentWillUnmount() {
-        // Clean up the reaction when the component unmounts
         this.disposer();
     }
 

@@ -1,6 +1,7 @@
 import { API } from "../consts/constApi";
 import axios from "axios";
 import IProductPagination from "../interfaces/IProductPagination";
+import IProduct from "../interfaces/IProduct";
 
 export const getProducts = async (
     page: number,
@@ -37,6 +38,16 @@ export const getProducts = async (
         return productPagination;
     } catch (error) {
         console.error("Error fetching products:", error);
+        throw error;
+    }
+}
+
+export const getProduct = async (id: string): Promise<IProduct> => {
+    try {
+        const response = await axios.get(`${API}/products/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching product:", error);
         throw error;
     }
 }

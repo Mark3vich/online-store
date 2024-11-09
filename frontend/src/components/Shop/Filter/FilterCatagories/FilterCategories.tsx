@@ -3,7 +3,7 @@ import { Checkbox, Button, message } from 'antd';
 import './FilterCategories.css';
 import ICategory from '../../../../interfaces/ICategory';
 import { getCategories } from '../../../../services/CategoriesService';
-import DataFilterStores from '../../../../stores/DataFilterStores'; // Import your DataFilterStores
+import DataFilterStores from '../../../../stores/DataFilterStores'; 
 
 interface FilterCategoriesState {
     categories: { label: string; value: string }[];
