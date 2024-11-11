@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\{UserController, CategoryController, ProductControl
 
 Route::post('register', [JWTAuthController::class, 'register']);
 Route::post('login', [JWTAuthController::class, 'login']);
+Route::post('check_token', [JWTAuthController::class, 'checkToken']);
+Route::post('refresh', [JWTAuthController::class, 'refresh']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [JWTAuthController::class, 'logout']);

@@ -44,6 +44,28 @@ class JWTAuthController extends Controller
     }
 
     /**
+     * Проверка токена
+     */
+    public function checkToken()
+    {
+        $isValid = $this->jwtAuthService->checkTokenValidity();
+        return response()->json(['valid' => $isValid]);
+    }
+
+    public function refresh()
+    {
+        $response = $this->jwtAuthService->refreshToken();
+
+        // Если произошла ошибка, возвращаем статус 401
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+
+        return response()->json($response);
+    }
+
+
+    /**
      * Logout user
      * @return \Illuminate\Http\JsonResponse
      */
