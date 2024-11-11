@@ -4,6 +4,7 @@ import withParams from '../../hooks/withParams';
 import IProduct from '../../interfaces/IProduct';
 import { Button, Row, Col } from 'antd';
 import "./Product.css";
+import Reviews from './Reviews/Reviews';
 
 interface ProductState {
     product: IProduct | null;
@@ -72,7 +73,9 @@ class Product extends React.Component<Props, ProductState> {
                         </Button>
                     </Col>
                 </Row>
-                
+                <div>
+                    <Reviews params={this.props.params}/>
+                </div>
             </div>
         );
     }
