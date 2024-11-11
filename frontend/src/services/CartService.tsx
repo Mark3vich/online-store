@@ -2,13 +2,14 @@ import { API } from "../consts/constApi";
 import axios from "axios";
 import ICartItem from "../interfaces/ICartItem";
 import IProduct from "../interfaces/IProduct";
+import api from "../interceptors/api";
 
 export const addCartItems = async (
     cartItems: ICartItem[], // Accepts an array of ICartItem
     token: string // Pass the token as a parameter
 ): Promise<ICartItem[]> => {
     try {
-        const response = await axios.put(
+        const response = await api.put(
             `${API}/cart`,
             cartItems,
             {
@@ -26,7 +27,7 @@ export const addCartItems = async (
 
 export const getCartItems = async (token: string): Promise<IProduct[]> => {
     try {
-        const response = await axios.get(`${API}/cart`, {
+        const response = await api.get(`${API}/cart`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
