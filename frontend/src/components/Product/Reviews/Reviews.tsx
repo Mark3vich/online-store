@@ -77,7 +77,7 @@ class Reviews extends React.Component<Props, AppState> {
                         Comments
                     </Button>
                     {activeTab === 'reviews' ? (
-                        <ReviewsItem review={review} renderStars={this.renderStars} />
+                        <ReviewsItem review={review} product_id={this.props.params.id} renderStars={this.renderStars} />
                     ) : (
                         <OutputComments id={this.props.params.id} token={localStorage.getItem('token') || ''} />
                     )}
