@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\UserRequest;
+
 use App\Http\Services\UserService;
 use App\Http\Controllers\Api\JWTAuthController;
-
+use Illuminate\Http\Request;
 class UserController extends JWTAuthController
 {
     protected $userService;
@@ -15,55 +15,22 @@ class UserController extends JWTAuthController
         $this->userService = $userService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function learn_user(Request $request)
     {
-        $users = $this->userService->getAllUsers();
-        
-        return response()->json($users, 200);
-    }
+        // Извлекаем токен из заголовка
+        $token = $request->bearerToken();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(UserRequest $request)
-    {
-        $validatedData = $request->validated();
+        if (!$token) {
+            return response()->json(['error' => 'Token is missing'], 401);
+        }
 
-        $user = $this->userService->createUser($validatedData);
+        $user = $this->userService->getUser($token);
 
-        return response()->json($user, 201); 
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $user = $this->userService->getUserById($id);
-        return response()->json($user, 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UserRequest $request, string $id)
-    {
-        $validatedData = $request->validated();
-        
-        $user = $this->userService->updateUser($id, $validatedData);
+        // Если пользователь не найден, возвращаем ошибку
+        if (!$user) {
+            return response()->json(['error' => 'User not found or invalid token'], 404);
+        }
 
         return response()->json($user, 200);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $this->userService->deleteUser($id);  
-        return response()->json(null, 204);
     }
 }

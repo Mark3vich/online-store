@@ -5,11 +5,21 @@ namespace App\Http\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Log;
-use Exception;
 
 class UserService
 {
+    public function getUser(string $token)
+    {
+        if (empty($token)) {
+            return null;
+        }
+
+        // Проверяем, существует ли пользователь с указанным токеном
+        $user = User::where('token', $token)->first();
+
+        return $user ?: null;
+    }
+
     /**
      * Получаем всех пользователей с отформатированным полем роли
      *

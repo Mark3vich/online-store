@@ -10,8 +10,8 @@ Route::post('refresh', [JWTAuthController::class, 'refresh']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [JWTAuthController::class, 'logout']);
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('categories', CategoryController::class);
+    Route::post('user', [UserController::class, 'learn_user']);
+    // Route::apiResource('categories', CategoryController::class);
     Route::put('cart', [CartController::class, 'store']);
     Route::get('cart', [CartController::class, 'show']);
     Route::post('review/{id}', [ReviewsController::class, 'store']);

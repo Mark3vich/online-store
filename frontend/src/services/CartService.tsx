@@ -1,5 +1,4 @@
 import { API } from "../consts/constApi";
-import axios from "axios";
 import ICartItem from "../interfaces/ICartItem";
 import IProduct from "../interfaces/IProduct";
 import api from "../interceptors/api";
@@ -33,7 +32,7 @@ export const getCartItems = async (token: string): Promise<IProduct[]> => {
             }
         });
         // Map over the cart items and extract only the product details
-        const products = response.data.map((cartItem: { product: IProduct; quantity_items_cart: number }) => ({
+        const products = response.data.map((cartItem: { product: IProduct; quantity_items_cart: number; }) => ({
             ...cartItem.product,
             quantity_items_cart: cartItem.quantity_items_cart
         }));
