@@ -50,7 +50,7 @@ class OutputComments extends React.Component<OutputCommentsProps, OutputComments
 
         try {
             const newReview: IReview = { review, rating };
-            const response = await postReview(id, token, newReview);
+            await postReview(id, token, newReview);
 
             message.success("Comment added successfully!");
 

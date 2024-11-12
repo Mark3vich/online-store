@@ -5,6 +5,7 @@ import IProduct from '../../interfaces/IProduct';
 import { Button, Row, Col, Typography } from 'antd';
 import "./Product.css";
 import Reviews from './Reviews/Reviews';
+import DataCartStores from '../../stores/DataCartStores';
 
 interface ProductState {
     product: IProduct | null;
@@ -33,6 +34,12 @@ class Product extends React.Component<Props, ProductState> {
             this.setState({ product });
         }
     }
+
+    handleAddToCart = () => {
+        const { product } = this.state;
+        if (!product) return;
+        DataCartStores.addCartProduct(product);
+    };
 
     render() {
         const { product } = this.state;
@@ -78,7 +85,7 @@ class Product extends React.Component<Props, ProductState> {
                             </span>
                         </div>
 
-                        <Button type="primary" size="large">
+                        <Button type="primary" size="large" onClick={() => { this.handleAddToCart() }}>
                             Add to Cart
                         </Button>
                     </Col>
