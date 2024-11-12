@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Services\UserService;
 use App\Http\Controllers\Api\JWTAuthController;
-use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+
 class UserController extends JWTAuthController
 {
     protected $userService;
@@ -15,22 +19,23 @@ class UserController extends JWTAuthController
         $this->userService = $userService;
     }
 
-    public function learn_user(Request $request)
+    public function learn_user()
     {
-        // Извлекаем токен из заголовка
-        $token = $request->bearerToken();
+        try {
+            // Получаем пользователя из токена
+            $user = JWTAuth::parseToken()->authenticate();
 
-        if (!$token) {
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+
+            return response()->json($user, 200);
+        } catch (TokenExpiredException $e) {
+            return response()->json(['error' => 'Token expired'], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['error' => 'Invalid token'], 401);
+        } catch (JWTException $e) {
             return response()->json(['error' => 'Token is missing'], 401);
         }
-
-        $user = $this->userService->getUser($token);
-
-        // Если пользователь не найден, возвращаем ошибку
-        if (!$user) {
-            return response()->json(['error' => 'User not found or invalid token'], 404);
-        }
-
-        return response()->json($user, 200);
     }
 }

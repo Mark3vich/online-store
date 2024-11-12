@@ -8,18 +8,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UserService
 {
-    public function getUser(string $token)
-    {
-        if (empty($token)) {
-            return null;
-        }
-
-        // Проверяем, существует ли пользователь с указанным токеном
-        $user = User::where('token', $token)->first();
-
-        return $user ?: null;
-    }
-
     /**
      * Получаем всех пользователей с отформатированным полем роли
      *

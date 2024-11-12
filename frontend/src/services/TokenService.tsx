@@ -1,5 +1,6 @@
 import { API } from "../consts/constApi";
 import axios from "axios";
+import IUser from "../interfaces/IUser";
 
 export const checkToken = async (): Promise<boolean> => {
     const token = localStorage.getItem('token');
@@ -26,3 +27,22 @@ export const checkToken = async (): Promise<boolean> => {
         return false;
     }
 };
+
+export const getUser = async(): Promise<IUser> => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await axios.post(
+            `${API}/user/`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        throw error;
+    }
+}

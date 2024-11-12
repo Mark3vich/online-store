@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button,Typography } from 'antd';
 import IReviewItem from '../../../../interfaces/IRevieItem';
-import { checkToken } from '../../../../services/TokenService';
+import { checkToken, getUser } from '../../../../services/TokenService';
 
 interface ReviewsItemProps {
     review: IReviewItem[];
@@ -10,6 +10,7 @@ interface ReviewsItemProps {
 
 interface ReviewsItemState {
     token: string;
+    user_id: number | null;
   }
   
   class ReviewsItem extends React.Component<ReviewsItemProps, ReviewsItemState> {
@@ -18,15 +19,17 @@ interface ReviewsItemState {
   
       this.state = {
         token: '',
+        user_id: null,
       };
     }
   
     async componentDidMount() {
       const token = localStorage.getItem('token');
+      const user_id = (await getUser()).id;
       if (token) {
         const isFlag: boolean = await checkToken();
         if (isFlag) {
-          this.setState({ token });
+          this.setState({ token, user_id });
         }
       }
     }
@@ -45,7 +48,7 @@ interface ReviewsItemState {
   
     render(): React.ReactNode {
       const { review, renderStars } = this.props;
-      const { token } = this.state;
+      const { token, user_id } = this.state;
   
       return (
         <div>
@@ -60,7 +63,7 @@ interface ReviewsItemState {
               </Typography.Title>
               
               {/* Если токен валиден, отображаем кнопки */}
-              {token && (
+              {token && user_id === item.user_id && (
                 <div className="ml-auto">
                   <Button type="primary" onClick={() => this.handleEdit(item.id)} className="me-2">
                     Изменить
