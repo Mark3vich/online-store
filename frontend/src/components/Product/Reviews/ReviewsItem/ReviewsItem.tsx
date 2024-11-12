@@ -130,7 +130,7 @@ class ReviewsItem extends React.Component<ReviewsItemProps, ReviewsItemState> {
 
     return (
       <div>
-        <Typography.Title level={2}>Reviews</Typography.Title>
+        <Typography.Title level={3} className='text-3xl font-bold mb-0 mt-2 me-2 title-text'>Reviews</Typography.Title>
         {review.map((item: IReviewItem) => (
           <div key={item.id} className="d-flex align-items-start gap-3 mb-3">
             {editingReviewId === String(item.id) ? (

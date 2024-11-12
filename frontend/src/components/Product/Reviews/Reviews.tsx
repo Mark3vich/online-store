@@ -57,7 +57,7 @@ class Reviews extends React.Component<Props, AppState> {
         return (
             <div>
                 <div className="d-flex align-items-center gap-3">
-                    <Typography.Title level={4} className="mb-0 title-text">
+                    <Typography.Title level={3} className="text-3xl font-bold mb-2 mt-2 me-2 title-text">
                         Average Rating:
                     </Typography.Title>
                     <Rate value={Number(rating)} disabled allowHalf style={{ fontSize: '32px' }} />

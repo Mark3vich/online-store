@@ -2,7 +2,7 @@ import React from 'react';
 import { getProduct } from '../../services/ProductsService';
 import withParams from '../../hooks/withParams';
 import IProduct from '../../interfaces/IProduct';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col, Typography } from 'antd';
 import "./Product.css";
 import Reviews from './Reviews/Reviews';
 
@@ -59,13 +59,23 @@ class Product extends React.Component<Props, ProductState> {
                         <p className="text-muted mb-4 text-description">{product.description}</p>
                         <div className="d-flex align-items-center mb-4">
                             <h1 className="text-3xl font-bold mb-0 me-2 title-text">Category:</h1>
-                            <p className="text-muted text-description mb-0">{product.category}</p>
+                            <p className="text-3xl font-bold mb-0 me-2" style={{ fontSize: '20px' }}>{product.category}</p>
                         </div>
 
-                        {/* Цена и кнопка */}
-                        <div className="d-flex align-items-center mb-4">
-                            <h4 className="me-3 mb-0">Price:</h4>
-                            <span className="fs-4 fw-semibold text-price">${product.price}</span>
+                        <div className="d-flex align-items-center justify-content-start gap-3 mb-4">
+                            <Typography.Title
+                                level={3}
+                                className="text-3xl font-bold mb-0 title-text"
+                                style={{ marginTop: '0.5rem' }}
+                            >
+                                Price:
+                            </Typography.Title>
+                            <span
+                                className="fs-4 fw-semibold text-price"
+                                style={{ marginTop: '0.5rem' }}
+                            >
+                                ${product.price}
+                            </span>
                         </div>
 
                         <Button type="primary" size="large">
@@ -74,7 +84,7 @@ class Product extends React.Component<Props, ProductState> {
                     </Col>
                 </Row>
                 <div>
-                    <Reviews params={this.props.params}/>
+                    <Reviews params={this.props.params} />
                 </div>
             </div>
         );
