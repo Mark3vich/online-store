@@ -3,46 +3,49 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\LikeService;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public $likeService;
+
+    public function __construct(LikeService $likeService)
     {
-        //
+        $this->likeService = $likeService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(Request $request){ 
+        $token = $request->bearerToken();
+        if (!$token) {
+            return response()->json(['error' => 'Authorization token is missing'], 400);
+        }
+        try{
+            $like = $this->likeService->getAllLikesUser($token);
+            return response()->json($like);
+        } catch(\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    } 
+
+    public function store(Request $request, string $product_id)
     {
-        //
+        $token = $request->bearerToken();
+        if (!$token) {
+            return response()->json(['error' => 'Authorization token is missing'], 400);
+        }
+        try{
+            $like = $this->likeService->createLike($token, (int)$product_id);
+            return response()->json($like);
+        } catch(\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
     {
         //
     }

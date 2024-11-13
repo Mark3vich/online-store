@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
         "nextapps/laravel-swagger-ui": "^1.0",
+        "stripe/stripe-php": "^16.2",
         "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {
