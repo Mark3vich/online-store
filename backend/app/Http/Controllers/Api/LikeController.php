@@ -35,7 +35,7 @@ class LikeController extends Controller
             return response()->json(['error' => 'Authorization token is missing'], 400);
         }
         try{
-            $like = $this->likeService->createLike($token, (int)$product_id);
+            $like = $this->likeService->toggleLike($token, (int)$product_id);
             return response()->json($like);
         } catch(\Exception $e){
             return response()->json(['error' => $e->getMessage()], 400);

@@ -43,4 +43,10 @@ class Product extends Model
     {
         return $this->hasMany(CartItem::class);
     }
+
+    // Связь с моделью Like
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'product_id');
+    }
 }

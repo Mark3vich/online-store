@@ -5,6 +5,7 @@ import './Product.css';
 import IProduct from '../../../interfaces/IProduct';
 import DataCartStores from '../../../stores/DataCartStores';
 import { Link } from 'react-router-dom';
+import DataLikeStores from '../../../stores/DataLikeStores';
 
 interface ProductProps {
     border?: boolean;
@@ -31,6 +32,11 @@ class Product extends React.Component<ProductProps> {
         DataCartStores.addCartProduct(product);
     };
 
+    handleAddToLike = () => {
+        const { product } = this.props;
+        DataLikeStores.addLikeProduct(product);
+    };
+
     render() {
         const {
             border = Product.defaultProps.border,
@@ -43,7 +49,7 @@ class Product extends React.Component<ProductProps> {
         return (
             <div className={`product-container ${border ? 'border-start border-end' : ''}`} style={{ width: width, padding: padding }}>
                 <div className="icon-container">
-                    <HeartOutlined className="icon-heart" />
+                    <HeartOutlined className="icon-heart" onClick={this.handleAddToLike}/>
                     <ShoppingCartOutlined className="icon-cart" onClick={this.handleAddToCart}/>
                 </div>
                 <img src={image} alt={product.title} />

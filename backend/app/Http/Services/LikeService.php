@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Like;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -22,43 +23,58 @@ class LikeService
             throw new AuthorizationException('Invalid token or user not found');
         }
 
-        // 2. Получение всех лайков пользователя для всех продуктов
-        $likes = Like::where('user_id', $user->id)->get();
+        // 2. Получение всех продуктов, которые пользователь лайкнул
+        $likes = Like::where('user_id', $user->id)
+            ->with('product') // Загружаем связанную модель Product
+            ->get();
 
-        // 3. Возвращаем коллекцию лайков
-        return $likes;
+        // 3. Извлекаем продукты из лайков и возвращаем как Eloquent\Collection
+        $likedProducts = $likes->map(function ($like) {
+            return $like->product;
+        })->filter(); // Убираем возможные null значения
+
+        return new Collection($likedProducts);
     }
 
-    public function createLike(string $token, int $product_id)
+    public function toggleLike(string $token, int $product_id)
     {
-        // 1. Аутентификация пользователя
+        // Аутентификация пользователя
         $authService = new AuthService();
         $user = $authService->authenticate($token);
 
-        // Если пользователь не найден, выбрасываем исключение
         if (!$user) {
             throw new AuthorizationException('Invalid token or user not found');
         }
 
-        // 2. Проверка, поставил ли пользователь лайк на этот продукт
+        // Поиск существующего лайка
         $existingLike = Like::where('user_id', $user->id)
             ->where('product_id', $product_id)
             ->first();
 
         if ($existingLike) {
-            // Если лайк уже существует, то удаляем его (можно поменять логику на обновление)
+            // Удаление лайка
             $existingLike->delete();
-            return response()->json(['message' => 'Like removed'], 200);
+            return [
+                'status' => 'removed',
+                'product' => Product::find($product_id)
+            ];
         }
 
-        // 3. Если лайка нет, создаём новый
+        // Добавление лайка
         $like = new Like();
         $like->user_id = $user->id;
         $like->product_id = $product_id;
         $like->save();
 
-        return response()->json(['message' => 'Like created'], 201);
+        // Возвращаем продукт
+        $product = Product::find($product_id);
+
+        return [
+            'status' => 'added',
+            'product' => $product
+        ];
     }
+
 
     /**
      * Удалить лайк по ID.
