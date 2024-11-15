@@ -4,12 +4,15 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Pdf\PDFExportCategoryController;
 use App\Http\Controllers\Pdf\PDFExportProdutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Word\WordCategoryExportController;
+use App\Http\Controllers\Word\WordProductExportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Pdf\PDFExportUserController;
+use App\Http\Controllers\Word\WordUserExportController;
 
 
 Route::middleware('auth')->group(function () {
@@ -34,6 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/export-pdf-users', [PDFExportUserController::class, 'export']);
     Route::get('/export-pdf-categories', [PDFExportCategoryController::class, 'export']);
     Route::get('/export-pdf-products', [PDFExportProdutController::class, 'export']);
+
+    Route::get('/export-word-users', [WordUserExportController::class, 'exportToWord']);
+    Route::get('/export-word-categories', [WordCategoryExportController::class, 'exportToWord']);
+    Route::get('/export-word-products', [WordProductExportController::class, 'exportToWord']);
 });
 
 

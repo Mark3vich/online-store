@@ -369,6 +369,27 @@ return [
                 ]
             ],
         ],
+        [
+            'text' => 'Words',
+            'icon' => 'fas fa-fw fa-file-word',
+            'submenu' => [
+                [
+                    'text' => 'users',
+                    'url' => 'export-word-users',
+                    'icon' => 'fas fa-fw fa-file-word',
+                ],
+                [
+                    'text' => 'categories',
+                    'url' => 'export-word-categories',
+                    'icon' => 'fas fa-fw fa-file-word',
+                ],
+                [
+                    'text' => 'products',
+                    'url' => 'export-word-products',
+                    'icon' => 'fas fa-fw fa-file-word',
+                ]
+            ]
+        ]
     ],
 
     /*
