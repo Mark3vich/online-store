@@ -347,59 +347,27 @@ return [
             'url' => 'change-password',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        ['header' => 'Exports'],
         [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
+            'text' => 'PDF',
+            'icon' => 'fas fa-fw fa-file-pdf',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'users',
+                    'url' => 'export-pdf-users',
+                    'icon' => 'fas fa-fw fa-file-pdf',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'categories',
+                    'url' => 'export-pdf-categories',
+                    'icon' => 'fas fa-fw fa-file-pdf',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
+                    'text' => 'products',
+                    'url' => 'export-pdf-products',
+                    'icon' => 'fas fa-fw fa-file-pdf',
+                ]
             ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
         ],
     ],
 
