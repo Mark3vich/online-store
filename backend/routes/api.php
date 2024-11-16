@@ -11,7 +11,7 @@ Route::post('refresh', [JWTAuthController::class, 'refresh']);
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [JWTAuthController::class, 'logout']);
     Route::post('user', [UserController::class, 'learn_user']);
-    Route::post('create_payment_intent', [PaymentController::class, 'createPaymentIntent']);
+    // Route::post('create_payment_intent', [PaymentController::class, 'createPaymentIntent']);
     Route::get('like', [LikeController::class, 'index']);
     Route::post('like/{product_id}', [LikeController::class, 'store']);
     Route::put('cart', [CartController::class, 'store']);

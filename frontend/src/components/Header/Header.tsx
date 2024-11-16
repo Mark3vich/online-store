@@ -188,15 +188,15 @@ class Header extends React.Component<ShopProps, AppState> {
                         <Menu.Item key="1" className="text-menu">
                             <Link to="/" style={{ textDecorationLine: 'none' }}>HOME</Link>
                         </Menu.Item>
-                        <Menu.Item key="2" className="text-menu">
+                        {/* <Menu.Item key="2" className="text-menu">
                             <Link to="/about" style={{ textDecorationLine: 'none' }}>ABOUT</Link>
-                        </Menu.Item>
+                        </Menu.Item> */}
                         <Menu.Item key="3" className="text-menu">
                             <Link to="/shop" style={{ textDecorationLine: 'none' }}>SHOP</Link>
                         </Menu.Item>
-                        <Menu.Item key="5" className="text-menu">
+                        {/* <Menu.Item key="5" className="text-menu">
                             <Link to="/contacts" style={{ textDecorationLine: 'none' }}>CONTACTS</Link>
-                        </Menu.Item>
+                        </Menu.Item> */}
                     </Menu>
                 </div>
             </div >
