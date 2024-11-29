@@ -25,5 +25,10 @@ class ScheduleServiceProvider extends ServiceProvider
             ->twiceMonthly(1, 15, '00:00')
             ->timezone('UTC')
             ->appendOutputTo(storage_path('logs/backup.log'));
+        
+        // Настройка автоматического создания бэкапа базы данных и отправки в облако
+        $schedule->command('backup:database')
+            ->twiceMonthly(1, 15, '02:00') // Запуск 1-го и 15-го числа в 2:00 по UTC
+            ->timezone('UTC'); // Часовой пояс UTC
     }
 }
