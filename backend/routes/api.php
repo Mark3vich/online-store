@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\{UserController, CategoryController, ProductController, CartController, JWTAuthController, ReviewsController, PaymentController, LikeController};
+use App\Http\Controllers\RedisController;
 
 Route::post('register', [JWTAuthController::class, 'register']);
 Route::post('login', [JWTAuthController::class, 'login']);
@@ -26,3 +27,5 @@ Route::get('reviews/rating/{id}', [ReviewsController::class, 'getRatingProduct']
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show']);
 Route::get('categories_all', [CategoryController::class, 'getAllCategoriesWithProducts']);
+
+Route::get('/redis', [RedisController::class, 'index']);
